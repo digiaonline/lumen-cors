@@ -35,7 +35,7 @@ The middleware will now automatically handle the CORS requests.
 
 ### Configure
 
-Copy ```config/cors.php``` into ```config``` and modify it if necessary.
+Copy ```config/cors.php``` into ```config``` and modify according to your needs.
 
 The available configurations are:
 
