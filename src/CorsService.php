@@ -50,6 +50,57 @@ class CorsService implements CorsServiceContract
 
 
     /**
+     * @param array $config
+     */
+    public function configure(array $config)
+    {
+        if (isset( $config['allowOrigins'] )) {
+            if (in_array('*', $config['allowOrigins'])) {
+                $this->allowOrigins = true;
+            } else {
+                foreach ($config['allowOrigins'] as $origin) {
+                    $this->allowOrigin($origin);
+                }
+            }
+        }
+
+        if (isset( $config['allowHeaders'] )) {
+            if (in_array('*', $config['allowHeaders'])) {
+                $this->allowHeaders = true;
+            } else {
+                foreach ($config['allowHeaders'] as $header) {
+                    $this->allowHeader($header);
+                }
+            }
+        }
+
+        if (isset( $config['allowMethods'] )) {
+            if (in_array('*', $config['allowMethods'])) {
+                $this->allowMethods = true;
+            } else {
+                foreach ($config['allowMethods'] as $method) {
+                    $this->allowMethod($method);
+                }
+            }
+        }
+
+        if (isset( $config['allowCredentials'] )) {
+            $this->allowCredentials = $config['allowCredentials'];
+        }
+
+        if (isset( $config['exposeHeaders'] )) {
+            foreach ($config['exposeHeaders'] as $header) {
+                $this->exposeHeader($header);
+            }
+        }
+
+        if (isset( $config['maxAge'] )) {
+            $this->maxAge = $config['maxAge'];
+        }
+    }
+
+
+    /**
      * @inheritdoc
      */
     public function handlePreflightRequest(Request $request)
@@ -123,57 +174,6 @@ class CorsService implements CorsServiceContract
     public function isRequestAllowed(Request $request)
     {
         return $this->isOriginAllowed($request->headers->get('Origin'));
-    }
-
-
-    /**
-     * @param array $config
-     */
-    protected function configure(array $config)
-    {
-        if (isset( $config['allowOrigins'] )) {
-            if (in_array('*', $config['allowOrigins'])) {
-                $this->allowOrigins = true;
-            } else {
-                foreach ($config['allowOrigins'] as $origin) {
-                    $this->allowOrigin($origin);
-                }
-            }
-        }
-
-        if (isset( $config['allowHeaders'] )) {
-            if (in_array('*', $config['allowHeaders'])) {
-                $this->allowHeaders = true;
-            } else {
-                foreach ($config['allowHeaders'] as $header) {
-                    $this->allowHeader($header);
-                }
-            }
-        }
-
-        if (isset( $config['allowMethods'] )) {
-            if (in_array('*', $config['allowMethods'])) {
-                $this->allowMethods = true;
-            } else {
-                foreach ($config['allowMethods'] as $method) {
-                    $this->allowMethod($method);
-                }
-            }
-        }
-
-        if (isset( $config['allowCredentials'] )) {
-            $this->allowCredentials = $config['allowCredentials'];
-        }
-
-        if (isset( $config['exposeHeaders'] )) {
-            foreach ($config['exposeHeaders'] as $header) {
-                $this->exposeHeader($header);
-            }
-        }
-
-        if (isset( $config['maxAge'] )) {
-            $this->maxAge = $config['maxAge'];
-        }
     }
 
 
