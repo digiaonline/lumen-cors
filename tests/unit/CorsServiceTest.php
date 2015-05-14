@@ -33,10 +33,8 @@ class CorsServiceTest extends \Codeception\TestCase\Test
     public function testHandlePreflightRequest()
     {
         $this->service = new CorsService;
-        $this->request = new Request;
 
-        $this->specifyConfig()
-            ->shallowClone('request');
+        $this->request = new Request;
 
         $this->specify('403 response if origin is not allowed', function () {
             $this->request->headers->set('Origin', 'http://foo.com');
@@ -152,11 +150,8 @@ class CorsServiceTest extends \Codeception\TestCase\Test
     public function testHandleRequest()
     {
         $this->request  = new Request;
-        $this->response = new Response;
 
-        $this->specifyConfig()
-            ->shallowClone('request')
-            ->shallowClone('response');
+        $this->response = new Response;
 
         $this->service = new CorsService([
             'allowOrigins' => ['*'],
@@ -218,10 +213,8 @@ class CorsServiceTest extends \Codeception\TestCase\Test
     public function testIsCorsRequest()
     {
         $this->service = new CorsService;
-        $this->request  = new Request;
 
-        $this->specifyConfig()
-            ->shallowClone('request');
+        $this->request  = new Request;
 
         $this->specify('cors request is recognized', function () {
             verify($this->service->isCorsRequest($this->request))->false();
@@ -236,10 +229,8 @@ class CorsServiceTest extends \Codeception\TestCase\Test
     public function testIsPreflightRequest()
     {
         $this->service = new CorsService;
-        $this->request  = new Request;
 
-        $this->specifyConfig()
-            ->shallowClone('request');
+        $this->request  = new Request;
 
         $this->specify('preflight request is recognized', function () {
             verify($this->service->isPreflightRequest($this->request))->false();
@@ -264,9 +255,6 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         $this->service = new CorsService;
 
         $this->request  = new Request;
-
-        $this->specifyConfig()
-            ->shallowClone('request');
 
         $this->specify('request is not allowed', function () {
             $this->request->headers->set('Origin', 'http://foo.com');
