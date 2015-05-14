@@ -67,7 +67,7 @@ Please note the following guidelines before submitting pull requests:
 
 ## Running tests
 
-Install the dev-dependencies and run the following command to run the test suite:
+Run the following command to run the test suite:
 
 ```sh
 vendor/bin/codecept run unit
