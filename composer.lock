@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "15e9ff28bd392ae54875a601105532d2",
+    "hash": "c222cd852285e49468f19c8418ddd21c",
     "packages": [],
     "packages-dev": [
         {
@@ -124,6 +124,39 @@
             ],
             "description": "BDD code blocks for PHPUnit and Codeception",
             "time": "2015-04-30 22:49:55"
+        },
+        {
+            "name": "codeception/verify",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Codeception/Verify.git",
+                "reference": "f545e1d429b42c15e590cfd7082ed992553f0e77"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Codeception/Verify/zipball/f545e1d429b42c15e590cfd7082ed992553f0e77",
+                "reference": "f545e1d429b42c15e590cfd7082ed992553f0e77",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Codeception/function.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Michael Bodnarchuk",
+                    "email": "davert.php@mailican.com"
+                }
+            ],
+            "description": "BDD assertion library for PHPUnit",
+            "time": "2014-11-23 17:37:46"
         },
         {
             "name": "danielstjules/stringy",
@@ -3680,7 +3713,8 @@
     "stability-flags": {
         "laravel/lumen-framework": 20,
         "codeception/codeception": 20,
-        "codeception/specify": 20
+        "codeception/specify": 20,
+        "codeception/verify": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

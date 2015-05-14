@@ -16,7 +16,8 @@
     "require-dev": {
         "laravel/lumen-framework": "~5.1@dev",
         "codeception/codeception": "~2.1@dev",
-        "codeception/specify": "dev-master"
+        "codeception/specify": "dev-master",
+        "codeception/verify": "dev-master"
     },
     "autoload": {
         "psr-4": {
