@@ -1,9 +1,11 @@
 # Lumen CORS
 
 [![Build Status](https://travis-ci.org/nordsoftware/lumen-cors.svg?branch=master)](https://travis-ci.org/nordsoftware/lumen-cors)
-[![Latest Stable Version](https://poser.pugx.org/nordsoftware/lumen-cors/version)](https://packagist.org/packages/nordsoftware/lumen-cors) [![Latest Unstable Version](https://poser.pugx.org/nordsoftware/lumen-cors/v/unstable)](//packagist.org/packages/nordsoftware/lumen-cors) [![Total Downloads](https://poser.pugx.org/nordsoftware/lumen-cors/downloads)](https://packagist.org/packages/nordsoftware/lumen-cors)
+[![Latest Stable Version](https://poser.pugx.org/nordsoftware/lumen-cors/version)](https://packagist.org/packages/nordsoftware/lumen-cors) 
+[![Total Downloads](https://poser.pugx.org/nordsoftware/lumen-cors/downloads)](https://packagist.org/packages/nordsoftware/lumen-cors)
+[![License](https://poser.pugx.org/nordsoftware/lumen-cors/license)](https://packagist.org/packages/nordsoftware/lumen-cors)
 
-[CORS](http://enable-cors.org/) module for the [Lumen PHP framework](http://lumen.laravel.com/).
+[Cross-Origin Request Sharing](http://enable-cors.org/) (CORS) module for the [Lumen PHP framework](http://lumen.laravel.com/).
 
 ## Requirements
 
