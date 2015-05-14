@@ -48,9 +48,9 @@ The available configurations are:
 
 ## Contributing
 
-Contributions are most welcome. Please note the following guidelines before submitting pull requests:
+Please note the following guidelines before submitting pull requests:
 
-- Format code according to the [PSR standards](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
+- Use the [PSR-2 coding style](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
 
 ## License
 
