@@ -7,6 +7,7 @@ php:
   - hhvm
 
 before_script:
+  - phpenv config-add tests/xdebug.ini
   - composer self-update
   - composer install --prefer-source
 
@@ -15,3 +16,4 @@ script: vendor/bin/codecept run unit
 branches:
   only:
     - master
+    - develop
