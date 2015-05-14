@@ -1,6 +1,6 @@
-# lumen-cors
+# Lumen CORS
 
-CORS module for the Lumen PHP framework.
+[CORS](http://enable-cors.org/) module for the [Lumen PHP framework](http://lumen.laravel.com/).
 
 ## Requirements
 
