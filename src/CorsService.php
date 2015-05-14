@@ -8,31 +8,43 @@ class CorsService implements CorsServiceContract
 {
 
     /**
+     * Allowed request origins.
+     *
      * @var array
      */
     private $allowOrigins = [];
 
     /**
-     * @var array
-     */
-    private $allowHeaders = [];
-
-    /**
+     * Allowed HTTP methods.
+     *
      * @var array
      */
     private $allowMethods = [];
 
     /**
+     * Allowed HTTP headers.
+     *
+     * @var array
+     */
+    private $allowHeaders = [];
+
+    /**
+     * Whether or not the response can be exposed when credentials are present.
+     *
      * @var bool
      */
     private $allowCredentials = false;
 
     /**
+     * HTTP Headers that are allowed to be exposed to the web browser.
+     *
      * @var array
      */
     private $exposeHeaders = [];
 
     /**
+     * Indicates how long preflight request can be cached.
+     *
      * @var int
      */
     private $maxAge = 0;
@@ -127,7 +139,7 @@ class CorsService implements CorsServiceContract
 
 
     /**
-     * Configures the CORS service.
+     * Configures the service.
      *
      * @param array $config
      */
