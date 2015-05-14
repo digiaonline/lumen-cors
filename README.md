@@ -67,6 +67,12 @@ Please note the following guidelines before submitting pull requests:
 
 ## Running tests
 
+Clone the project and install its dependencies by running:
+
+```sh
+composer install
+```
+
 Run the following command to run the test suite:
 
 ```sh
