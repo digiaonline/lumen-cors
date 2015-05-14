@@ -11,6 +11,12 @@
     "minimum-stability": "dev",
     "require": {},
     "require-dev": {
-        "laravel/lumen-framework": "~5.1@dev"
+        "laravel/lumen-framework": "~5.1@dev",
+        "codeception/codeception": "~2.1@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nord\\Lumen\\Cors\\": "src"
+        }
     }
 }
