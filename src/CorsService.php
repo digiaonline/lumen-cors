@@ -10,32 +10,32 @@ class CorsService implements CorsServiceContract
     /**
      * @var array
      */
-    private $allowOrigins;
+    private $allowOrigins = [];
 
     /**
      * @var array
      */
-    private $allowHeaders;
+    private $allowHeaders = [];
 
     /**
      * @var array
      */
-    private $allowMethods;
+    private $allowMethods = [];
 
     /**
      * @var bool
      */
-    private $allowCredentials;
+    private $allowCredentials = false;
 
     /**
      * @var array
      */
-    private $exposeHeaders;
+    private $exposeHeaders = [];
 
     /**
      * @var int
      */
-    private $maxAge;
+    private $maxAge = 0;
 
 
     /**
@@ -43,35 +43,9 @@ class CorsService implements CorsServiceContract
      *
      * @param array $config
      */
-    public function __construct(array $config = [ ])
+    public function __construct(array $config = [])
     {
         $this->configure($config);
-    }
-
-
-    /**
-     * @param array $config
-     */
-    private function configure(array $config)
-    {
-        $this->allowOrigins     = array_get($config, 'allowOrigins', [ ]);
-        $this->allowHeaders     = array_get($config, 'allowHeaders', [ ]);
-        $this->allowMethods     = array_get($config, 'allowMethods', [ ]);
-        $this->allowCredentials = array_get($config, 'allowCredentials', false);
-        $this->exposeHeaders    = array_get($config, 'exposeHeaders', [ ]);
-        $this->maxAge           = array_get($config, 'maxAge', 0);
-
-        if (in_array('*', $this->allowOrigins)) {
-            $this->allowOrigins = true;
-        }
-
-        if (in_array('*', array_map('strtoupper', $this->allowHeaders))) {
-            $this->allowHeaders = true;
-        }
-
-        if (in_array('*', array_map('strtoupper', $this->allowMethods))) {
-            $this->allowMethods = true;
-        }
     }
 
 
@@ -87,7 +61,7 @@ class CorsService implements CorsServiceContract
 
         $method = strtoupper($request->headers->get('Access-Control-Request-Method'));
         if ( ! $this->isMethodAllowed($method)) {
-            return $this->createErrorResponse('Method not allowed.', 403);
+            return $this->createErrorResponse('Method not allowed.', 405);
         }
 
         if ( ! $this->allowHeaders && $request->headers->has('Access-Control-Request-Headers')) {
@@ -100,6 +74,106 @@ class CorsService implements CorsServiceContract
         }
 
         return $this->createPreflightResponse($request);
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function handleRequest(Request $request, Response $response)
+    {
+        $response->headers->set('Access-Control-Allow-Origin', $request->headers->get('Origin'));
+
+        $vary = $request->headers->has('Vary') ? $request->headers->get('Vary') . ', Origin' : 'Origin';
+        $response->headers->set('Vary', $vary);
+
+        if ($this->allowCredentials) {
+            $response->headers->set('Access-Control-Allow-Credentials', 'true');
+        }
+
+        if ($this->exposeHeaders) {
+            $response->headers->set('Access-Control-Expose-Headers', implode(', ', $this->exposeHeaders));
+        }
+
+        return $response;
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function isCorsRequest(Request $request)
+    {
+        return $request->headers->has('Origin');
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function isPreflightRequest(Request $request)
+    {
+        return $this->isCorsRequest($request) && $request->isMethod('OPTIONS') && $request->headers->has('Access-Control-Request-Method');
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function isRequestAllowed(Request $request)
+    {
+        return $this->isOriginAllowed($request->headers->get('Origin'));
+    }
+
+
+    /**
+     * @param array $config
+     */
+    protected function configure(array $config)
+    {
+        if (isset( $config['allowOrigins'] )) {
+            if (in_array('*', $config['allowOrigins'])) {
+                $this->allowOrigins = true;
+            } else {
+                foreach ($config['allowOrigins'] as $origin) {
+                    $this->allowOrigin($origin);
+                }
+            }
+        }
+
+        if (isset( $config['allowHeaders'] )) {
+            if (in_array('*', $config['allowHeaders'])) {
+                $this->allowHeaders = true;
+            } else {
+                foreach ($config['allowHeaders'] as $header) {
+                    $this->allowHeader($header);
+                }
+            }
+        }
+
+        if (isset( $config['allowMethods'] )) {
+            if (in_array('*', $config['allowMethods'])) {
+                $this->allowMethods = true;
+            } else {
+                foreach ($config['allowMethods'] as $method) {
+                    $this->allowMethod($method);
+                }
+            }
+        }
+
+        if (isset( $config['allowCredentials'] )) {
+            $this->allowCredentials = $config['allowCredentials'];
+        }
+
+        if (isset( $config['exposeHeaders'] )) {
+            foreach ($config['exposeHeaders'] as $header) {
+                $this->exposeHeader($header);
+            }
+        }
+
+        if (isset( $config['maxAge'] )) {
+            $this->maxAge = $config['maxAge'];
+        }
     }
 
 
@@ -137,28 +211,6 @@ class CorsService implements CorsServiceContract
 
 
     /**
-     * @inheritdoc
-     */
-    public function handleRequest(Request $request, Response $response)
-    {
-        $response->headers->set('Access-Control-Allow-Origin', $request->headers->get('Origin'));
-
-        $vary = $response->headers->has('Vary') ? $response->headers->get('Vary') . ', Origin' : 'Origin';
-        $response->headers->set('Vary', $vary);
-
-        if ($this->allowCredentials) {
-            $response->headers->set('Access-Control-Allow-Credentials', 'true');
-        }
-
-        if ($this->exposeHeaders) {
-            $response->headers->set('Access-Control-Expose-Headers', implode(', ', $this->exposeHeaders));
-        }
-
-        return $response;
-    }
-
-
-    /**
      * @param string $content
      * @param int    $status
      *
@@ -171,29 +223,38 @@ class CorsService implements CorsServiceContract
 
 
     /**
-     * @inheritdoc
+     * @param string $origin
      */
-    public function isCorsRequest(Request $request)
+    protected function allowOrigin($origin)
     {
-        return $request->headers->has('Origin');
+        $this->allowOrigins[] = $origin;
     }
 
 
     /**
-     * @inheritdoc
+     * @param string $method
      */
-    public function isPreflightRequest(Request $request)
+    protected function allowMethod($method)
     {
-        return $this->isCorsRequest($request) && $request->isMethod('OPTIONS') && $request->headers->has('Access-Control-Request-Method');
+        $this->allowMethods[] = strtoupper($method);
     }
 
 
     /**
-     * @inheritdoc
+     * @param string $header
      */
-    public function isRequestAllowed(Request $request)
+    protected function allowHeader($header)
     {
-        return $this->isOriginAllowed($request->headers->get('Origin'));
+        $this->allowHeaders[] = strtolower($header);
+    }
+
+
+    /**
+     * @param string $header
+     */
+    protected function exposeHeader($header)
+    {
+        $this->exposeHeaders[] = strtolower($header);
     }
 
 
