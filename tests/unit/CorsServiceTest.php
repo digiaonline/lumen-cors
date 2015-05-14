@@ -29,10 +29,6 @@ class CorsServiceTest extends \Codeception\TestCase\Test
     {
         $this->request  = new Request;
         $this->response = new Response;
-
-        $this->specifyConfig()
-            ->shallowClone('request')
-            ->shallowClone('response');
     }
 
 
@@ -45,6 +41,9 @@ class CorsServiceTest extends \Codeception\TestCase\Test
 
     public function testHandlePreflightRequest()
     {
+        $this->specifyConfig()
+            ->shallowClone('request');
+
         $this->specify('403 response if origin is not allowed', function () {
             $service = new CorsService;
 
@@ -160,6 +159,10 @@ class CorsServiceTest extends \Codeception\TestCase\Test
 
     public function testHandleRequest()
     {
+        $this->specifyConfig()
+            ->shallowClone('request')
+            ->shallowClone('response');
+
         $this->specify('response origin header is set', function () {
             $service = new CorsService([
                 'allowOrigins' => ['*'],
@@ -219,6 +222,9 @@ class CorsServiceTest extends \Codeception\TestCase\Test
 
     public function testIsCorsRequest()
     {
+        $this->specifyConfig()
+            ->shallowClone('request');
+
         $this->specify('cors request is recognized', function () {
             $service = new CorsService;
 
@@ -233,6 +239,9 @@ class CorsServiceTest extends \Codeception\TestCase\Test
 
     public function testIsPreflightRequest()
     {
+        $this->specifyConfig()
+            ->shallowClone('request');
+
         $this->specify('preflight request is recognized', function () {
             $service = new CorsService;
 
@@ -255,6 +264,9 @@ class CorsServiceTest extends \Codeception\TestCase\Test
 
     public function testIsRequestAllowed()
     {
+        $this->specifyConfig()
+            ->shallowClone('request');
+
         $this->specify('request is allowed', function () {
             $service = new CorsService;
 
