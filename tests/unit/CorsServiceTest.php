@@ -29,6 +29,10 @@ class CorsServiceTest extends \Codeception\TestCase\Test
     {
         $this->request  = new Request;
         $this->response = new Response;
+
+        $this->specifyConfig()
+            ->shallowClone('request')
+            ->shallowClone('response');
     }
 
 
