@@ -127,6 +127,8 @@ class CorsService implements CorsServiceContract
 
 
     /**
+     * Configures the CORS service.
+     *
      * @param array $config
      */
     protected function configure(array $config)
@@ -178,7 +180,11 @@ class CorsService implements CorsServiceContract
 
 
     /**
-     * @inheritdoc
+     * Creates a preflight response.
+     *
+     * @param Request $request
+     *
+     * @return Response
      */
     protected function createPreflightResponse(Request $request)
     {
@@ -211,6 +217,8 @@ class CorsService implements CorsServiceContract
 
 
     /**
+     * Creates an error response.
+     *
      * @param string $content
      * @param int    $status
      *
@@ -223,6 +231,8 @@ class CorsService implements CorsServiceContract
 
 
     /**
+     * Allows an origin.
+     *
      * @param string $origin
      */
     protected function allowOrigin($origin)
@@ -232,6 +242,8 @@ class CorsService implements CorsServiceContract
 
 
     /**
+     * Allows a method.
+     *
      * @param string $method
      */
     protected function allowMethod($method)
@@ -241,6 +253,8 @@ class CorsService implements CorsServiceContract
 
 
     /**
+     * Allows a header.
+     *
      * @param string $header
      */
     protected function allowHeader($header)
@@ -250,6 +264,8 @@ class CorsService implements CorsServiceContract
 
 
     /**
+     * Exposes a header.
+     *
      * @param string $header
      */
     protected function exposeHeader($header)
@@ -259,6 +275,8 @@ class CorsService implements CorsServiceContract
 
 
     /**
+     * Returns whether or not the origin is allowed.
+     *
      * @param string $origin
      *
      * @return bool
@@ -270,6 +288,8 @@ class CorsService implements CorsServiceContract
 
 
     /**
+     * Returns whether or not the method is allowed.
+     *
      * @param string $method
      *
      * @return bool
@@ -281,6 +301,8 @@ class CorsService implements CorsServiceContract
 
 
     /**
+     * Returns whether or not the header is allowed.
+     *
      * @param string $header
      *
      * @return bool

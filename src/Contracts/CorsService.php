@@ -7,6 +7,8 @@ interface CorsService
 {
 
     /**
+     * Handles a preflight request.
+     *
      * @param Request $request
      *
      * @return Response
@@ -15,8 +17,10 @@ interface CorsService
 
 
     /**
-     * @param Request $request
-     * @param         $response
+     * Handles the actual request.
+     *
+     * @param Request  $request
+     * @param Response $response
      *
      * @return Response
      */
@@ -24,6 +28,8 @@ interface CorsService
 
 
     /**
+     * Returns whether or not the request is a CORS request.
+     *
      * @param Request $request
      *
      * @return bool
@@ -32,6 +38,8 @@ interface CorsService
 
 
     /**
+     * Returns whether or not the request is a preflight request.
+     *
      * @param Request $request
      *
      * @return bool
@@ -40,6 +48,8 @@ interface CorsService
 
 
     /**
+     * Returns whether or not the request is allowed.
+     *
      * @param Request $request
      *
      * @return bool
