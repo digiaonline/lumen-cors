@@ -5,7 +5,7 @@
 [![Total Downloads](https://poser.pugx.org/nordsoftware/lumen-cors/downloads)](https://packagist.org/packages/nordsoftware/lumen-cors)
 [![License](https://poser.pugx.org/nordsoftware/lumen-cors/license)](https://packagist.org/packages/nordsoftware/lumen-cors)
 
-[Cross-Origin Request Sharing](http://enable-cors.org/) (CORS) module for the [Lumen PHP framework](http://lumen.laravel.com/).
+[Cross-Origin Resource Sharing](http://enable-cors.org/) (CORS) module for the [Lumen PHP framework](http://lumen.laravel.com/).
 
 ## Requirements
 
