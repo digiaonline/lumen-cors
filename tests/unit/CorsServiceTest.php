@@ -17,12 +17,12 @@ class CorsServiceTest extends \Codeception\TestCase\Test
     /**
      * @var Request
      */
-    private $request;
+    protected $request;
 
     /**
      * @var Response
      */
-    private $response;
+    protected $response;
 
 
     protected function _before()
