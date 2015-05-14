@@ -65,8 +65,8 @@ class CorsService implements CorsServiceContract
         }
 
         if ( ! $this->allowHeaders && $request->headers->has('Access-Control-Request-Headers')) {
-            $headers = $request->headers->get('Access-Control-Request-Headers');
-            foreach (explode(', ', $headers) as $header) {
+            $headers = explode(', ', $request->headers->get('Access-Control-Request-Headers'));
+            foreach ($headers as $header) {
                 if ( ! $this->isHeaderAllowed($header)) {
                     return $this->createErrorResponse('Header not allowed.', 403);
                 }
