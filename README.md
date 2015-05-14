@@ -7,13 +7,14 @@
 
 ## Requirements
 
-- PHP >= 5.4
+- PHP 5.4 or newer
+- [Composer](http://getcomposer.org)
 
 ## Usage
 
 ### Installation
 
-Run the following command to install the package through [Composer](http://getcomposer.org):
+Run the following command to install the package through Composer:
 
 ```sh
 composer require nordsoftware/lumen-cors
