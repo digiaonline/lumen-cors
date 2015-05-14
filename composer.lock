@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "dd130d271ca131867494319e59a723e7",
+    "hash": "15e9ff28bd392ae54875a601105532d2",
     "packages": [],
     "packages-dev": [
         {
@@ -87,6 +87,43 @@
                 "unit testing"
             ],
             "time": "2015-05-13 20:53:42"
+        },
+        {
+            "name": "codeception/specify",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Codeception/Specify.git",
+                "reference": "038db7147d3b9354686e4500995b349740df6ce6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Codeception/Specify/zipball/038db7147d3b9354686e4500995b349740df6ce6",
+                "reference": "038db7147d3b9354686e4500995b349740df6ce6",
+                "shasum": ""
+            },
+            "require": {
+                "myclabs/deep-copy": "~1.1",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Codeception\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Michael Bodnarchuk",
+                    "email": "davert.php@mailican.com"
+                }
+            ],
+            "description": "BDD code blocks for PHPUnit and Codeception",
+            "time": "2015-04-30 22:49:55"
         },
         {
             "name": "danielstjules/stringy",
@@ -1333,7 +1370,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/9f9eadc7b2ce57ddc8cb0b0a3d60d1704c96a644",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/89ce147b6024b06a29b08ee7c639241b5e8d535f",
                 "reference": "9f9eadc7b2ce57ddc8cb0b0a3d60d1704c96a644",
                 "shasum": ""
             },
@@ -1765,6 +1802,48 @@
                 "schedule"
             ],
             "time": "2015-01-11 23:07:46"
+        },
+        {
+            "name": "myclabs/deep-copy",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/myclabs/DeepCopy.git",
+                "reference": "96fbdc07635989c35c5a1912379f4c4b2ab15fd5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/96fbdc07635989c35c5a1912379f4c4b2ab15fd5",
+                "reference": "96fbdc07635989c35c5a1912379f4c4b2ab15fd5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "doctrine/collections": "1.*",
+                "phpunit/phpunit": "~4.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DeepCopy\\": "src/DeepCopy/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Create deep copies (clones) of your objects",
+            "homepage": "https://github.com/myclabs/DeepCopy",
+            "keywords": [
+                "clone",
+                "copy",
+                "duplicate",
+                "object",
+                "object graph"
+            ],
+            "time": "2015-03-21 22:40:23"
         },
         {
             "name": "nesbot/carbon",
@@ -3244,7 +3323,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/38180fa32ebb999b97094c5fd2dde39e5a5e9832",
+                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/28afcb35d51505ee34a5f7c327528758c77f8594",
                 "reference": "38180fa32ebb999b97094c5fd2dde39e5a5e9832",
                 "shasum": ""
             },
@@ -3600,10 +3679,13 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "laravel/lumen-framework": 20,
-        "codeception/codeception": 20
+        "codeception/codeception": 20,
+        "codeception/specify": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=5.4"
+    },
     "platform-dev": []
 }
