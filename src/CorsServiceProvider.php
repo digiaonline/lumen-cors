@@ -1,6 +1,5 @@
 <?php namespace Nord\Lumen\Cors;
 
-use Nord\Lumen\Cors\Contracts\CorsService as CorsServiceContract;
 use Illuminate\Support\ServiceProvider;
 
 class CorsServiceProvider extends ServiceProvider
@@ -13,12 +12,12 @@ class CorsServiceProvider extends ServiceProvider
     {
         $config = $this->app['config']['cors'];
 
-        $this->app->bind(CorsService::class, function () use ($config) {
+        $this->app->bind('Nord\Lumen\Cors\CorsService', function () use ($config) {
             return new CorsService($config);
         });
 
-        $this->app->alias(CorsService::class, CorsServiceContract::class);
+        $this->app->alias('Nord\Lumen\Cors\CorsService', 'Nord\Lumen\Cors\Contracts\CorsService');
 
-        class_alias(CorsFacade::class, 'Cors');
+        class_alias('Nord\Lumen\Cors\CorsFacade', 'Cors');
     }
 }
