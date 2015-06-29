@@ -6,6 +6,14 @@ class CorsServiceProvider extends ServiceProvider
 {
 
     /**
+     * Indicates if the class aliases have been registered.
+     *
+     * @var bool
+     */
+    protected static $aliasesRegistered = false;
+
+
+    /**
      * @inheritdoc
      */
     public function register()
@@ -18,6 +26,9 @@ class CorsServiceProvider extends ServiceProvider
 
         $this->app->alias('Nord\Lumen\Cors\CorsService', 'Nord\Lumen\Cors\Contracts\CorsService');
 
-        class_alias('Nord\Lumen\Cors\CorsFacade', 'Cors');
+        if (!static::$aliasesRegistered) {
+            static::$aliasesRegistered = true;
+            class_alias('Nord\Lumen\Cors\CorsFacade', 'Cors');
+        }
     }
 }
