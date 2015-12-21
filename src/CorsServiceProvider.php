@@ -17,7 +17,8 @@ class CorsServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('Nord\Lumen\Cors\CorsService', 'Nord\Lumen\Cors\Contracts\CorsService');
-
-        class_alias('Nord\Lumen\Cors\CorsFacade', 'Cors');
+        if (!class_exists('Cors')) {
+            class_alias('Nord\Lumen\Cors\CorsFacade', 'Cors');
+        }
     }
 }
