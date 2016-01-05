@@ -42,7 +42,7 @@ class CorsMiddleware
 		}
 
 		if ( ! $this->service->isRequestAllowed($request)) {
-			abort(403);
+			abort(403, 'CORS access denied');
 		}
 
 		return $this->service->handleRequest($request, $next($request));
