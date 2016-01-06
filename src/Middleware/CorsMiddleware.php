@@ -1,10 +1,14 @@
 <?php namespace Nord\Lumen\Cors\Middleware;
 
+
+use Illuminate\Http\Response;
 use Nord\Lumen\Cors\Contracts\CorsService;
 use Illuminate\Http\Request;
 
 class CorsMiddleware
 {
+
+	const CORS_REQUEST_NOT_ALLOWED = 'CORS request not allowed';
 
 	/**
 	 * @var CorsService
@@ -42,7 +46,7 @@ class CorsMiddleware
 		}
 
 		if ( ! $this->service->isRequestAllowed($request)) {
-			abort(403, 'CORS access denied');
+			return new Response(static::CORS_REQUEST_NOT_ALLOWED, 403);
 		}
 
 		return $this->service->handleRequest($request, $next($request));
