@@ -1,6 +1,7 @@
 # Lumen CORS
 
 [![Build Status](https://travis-ci.org/nordsoftware/lumen-cors.svg?branch=master)](https://travis-ci.org/nordsoftware/lumen-cors)
+[![Code Climate](https://codeclimate.com/github/nordsoftware/lumen-cors/badges/gpa.svg)](https://codeclimate.com/github/nordsoftware/lumen-cors)
 [![Latest Stable Version](https://poser.pugx.org/nordsoftware/lumen-cors/version)](https://packagist.org/packages/nordsoftware/lumen-cors) 
 [![Total Downloads](https://poser.pugx.org/nordsoftware/lumen-cors/downloads)](https://packagist.org/packages/nordsoftware/lumen-cors)
 [![License](https://poser.pugx.org/nordsoftware/lumen-cors/license)](https://packagist.org/packages/nordsoftware/lumen-cors)
@@ -24,7 +25,7 @@ composer require nordsoftware/lumen-cors
 
 ### Configure
 
-Copy the configuration template in `config/cors.php` to your application's `config` directory and modifying according to your needs. 
+Copy the configuration template in `config/cors.php` to your application's `config` directory and modify according to your needs. 
 For more information see the [Configuration Files](http://lumen.laravel.com/docs/configuration#configuration-files) section in the Lumen documentation.
 
 Available configuration options:
@@ -33,7 +34,7 @@ Available configuration options:
 - **allowHeaders** - *HTTP headers that are allowed, defaults to an empty array*
 - **allowMethods** - *HTTP methods that are allowed, defaults to an empty array*
 - **allowCredentials** - *Whether or not the response can be exposed when credentials are present, defaults to false*
-- **exposeHeaders** - *HTTP Headers that are allowed to be exposed to the web browser, defaults to an empty array*
+- **exposeHeaders** - *HTTP headers that are allowed to be exposed to the web browser, defaults to an empty array*
 - **maxAge** - *Indicates how long preflight request can be cached, defaults to 0*
 
 ### Bootstrapping
