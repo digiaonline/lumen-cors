@@ -4,7 +4,7 @@
 
 ### What actually happened?
 
-### What versions of PHP, Lumen and Lumen CORS are you using?
+### What versions of PHP, Lumen and this module are you using?
 
 Please include code that reproduces the issue. The best reproductions are self-contained scripts with minimal dependencies.
 
