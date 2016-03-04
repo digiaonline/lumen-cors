@@ -60,7 +60,7 @@ The module now automatically handles all CORS requests.
 
 ## Contributing
 
-See [CONTRIBUTING.md](.github/CONTRIBUTING.md).
+Please read the [guidelines](.github/CONTRIBUTING.md).
 
 ## Running tests
 
