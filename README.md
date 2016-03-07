@@ -52,7 +52,7 @@ $app->register('Nord\Lumen\Cors\CorsServiceProvider');
 ```php
 $app->middleware([
 	.....
-	'Nord\Lumen\Cors\Middleware\CorsMiddleware',
+	'Nord\Lumen\Cors\CorsMiddleware',
 ]);
 ```
 
