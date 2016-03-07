@@ -47,7 +47,7 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         });
 
         $this->service = new CorsService([
-            'allowOrigins' => ['http://foo.com'],
+            'allow_origins' => ['http://foo.com'],
         ]);
 
         $this->specify('405 response if method is not allowed', function () {
@@ -61,8 +61,8 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         });
 
         $this->service = new CorsService([
-            'allowOrigins' => ['http://foo.com'],
-            'allowMethods' => ['post'],
+            'allow_origins' => ['http://foo.com'],
+            'allow_methods' => ['post'],
         ]);
 
         $this->specify('403 response if header is not allowed', function () {
@@ -76,9 +76,9 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         });
 
         $this->service = new CorsService([
-            'allowOrigins' => ['http://foo.com'],
-            'allowMethods' => ['post'],
-            'allowHeaders' => ['accept', 'authorization', 'content-type'],
+            'allow_origins' => ['http://foo.com'],
+            'allow_methods' => ['post'],
+            'allow_headers' => ['accept', 'authorization', 'content-type'],
         ]);
 
         $this->specify('200 response when origin, method and headers are allowed', function () {
@@ -92,9 +92,9 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         });
 
         $this->service = new CorsService([
-            'allowOrigins' => ['http://foo.com'],
-            'allowMethods' => ['post'],
-            'allowHeaders' => ['accept', 'authorization', 'content-type'],
+            'allow_origins' => ['http://foo.com'],
+            'allow_methods' => ['post'],
+            'allow_headers' => ['accept', 'authorization', 'content-type'],
         ]);
 
         $this->specify('response headers are set', function () {
@@ -112,10 +112,10 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         });
 
         $this->service = new CorsService([
-            'allowOrigins'     => ['*'],
-            'allowMethods'     => ['*'],
-            'allowHeaders'     => ['*'],
-            'allowCredentials' => true,
+            'allow_origins'     => ['*'],
+            'allow_methods'     => ['*'],
+            'allow_headers'     => ['*'],
+            'allow_credentials' => true,
         ]);
 
         $this->specify('response credentials header is set', function () {
@@ -129,10 +129,10 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         });
 
         $this->service = new CorsService([
-            'allowOrigins' => ['*'],
-            'allowMethods' => ['*'],
-            'allowHeaders' => ['*'],
-            'maxAge'       => 3600,
+            'allow_origins' => ['*'],
+            'allow_methods' => ['*'],
+            'allow_headers' => ['*'],
+            'max_age'       => 3600,
         ]);
 
         $this->specify('response max-age header is set', function () {
@@ -154,7 +154,7 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         $this->response = new Response;
 
         $this->service = new CorsService([
-            'allowOrigins' => ['*'],
+            'allow_origins' => ['*'],
         ]);
 
         $this->specify('response origin header is set', function () {
@@ -166,7 +166,7 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         });
 
         $this->service = new CorsService([
-            'allowOrigins' => ['*'],
+            'allow_origins' => ['*'],
         ]);
 
         $this->specify('response vary header is set', function () {
@@ -179,10 +179,10 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         });
 
         $this->service = new CorsService([
-            'allowOrigins'     => ['*'],
-            'allowMethods'     => ['*'],
-            'allowHeaders'     => ['*'],
-            'allowCredentials' => true,
+            'allow_origins'     => ['*'],
+            'allow_methods'     => ['*'],
+            'allow_headers'     => ['*'],
+            'allow_credentials' => true,
         ]);
 
         $this->specify('response credentials header is set', function () {
@@ -194,10 +194,10 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         });
 
         $this->service = new CorsService([
-            'allowOrigins'  => ['*'],
-            'allowMethods'  => ['*'],
-            'allowHeaders'  => ['*'],
-            'exposeHeaders' => ['Accept', 'Authorization', 'Content-Type'],
+            'allow_origins'  => ['*'],
+            'allow_methods'  => ['*'],
+            'allow_headers'  => ['*'],
+            'expose_headers' => ['Accept', 'Authorization', 'Content-Type'],
         ]);
 
         $this->specify('response expose headers header is set', function () {
@@ -263,7 +263,7 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         });
 
         $this->service = new CorsService([
-            'allowOrigins' => ['http://foo.com'],
+            'allow_origins' => ['http://foo.com'],
         ]);
 
         $this->specify('request is allowed', function () {
