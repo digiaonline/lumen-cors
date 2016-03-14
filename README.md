@@ -30,12 +30,12 @@ For more information see the [Configuration Files](http://lumen.laravel.com/docs
 
 Available configuration options:
 
-- **allowOrigins** - *Origins that are allowed to perform requests, defaults to an empty array*
-- **allowHeaders** - *HTTP headers that are allowed, defaults to an empty array*
-- **allowMethods** - *HTTP methods that are allowed, defaults to an empty array*
-- **allowCredentials** - *Whether or not the response can be exposed when credentials are present, defaults to false*
-- **exposeHeaders** - *HTTP headers that are allowed to be exposed to the web browser, defaults to an empty array*
-- **maxAge** - *Indicates how long preflight request can be cached, defaults to 0*
+- **allow_origins** - *Origins that are allowed to perform requests, defaults to an empty array*
+- **allow_headers** - *HTTP headers that are allowed, defaults to an empty array*
+- **allow_methods** - *HTTP methods that are allowed, defaults to an empty array*
+- **allow_credentials** - *Whether or not the response can be exposed when credentials are present, defaults to false*
+- **expose_headers** - *HTTP headers that are allowed to be exposed to the web browser, defaults to an empty array*
+- **max_age** - *Indicates how long preflight request can be cached, defaults to 0*
 
 ### Bootstrapping
 
