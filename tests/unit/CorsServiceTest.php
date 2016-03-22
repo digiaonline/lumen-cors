@@ -1,6 +1,7 @@
 <?php
 
 use Nord\Lumen\Cors\CorsService;
+use Illuminate\Http\Exception\HttpResponseException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -44,7 +45,7 @@ class CorsServiceTest extends \Codeception\TestCase\Test
             $response = $this->service->handlePreflightRequest($this->request);
 
             verify($response->getStatusCode())->equals(403);
-        });
+        }, ['throws' => HttpResponseException::class]);
 
         $this->service = new CorsService([
             'allow_origins' => ['http://foo.com'],
@@ -58,7 +59,7 @@ class CorsServiceTest extends \Codeception\TestCase\Test
             $response = $this->service->handlePreflightRequest($this->request);
 
             verify($response->getStatusCode())->equals(405);
-        });
+        }, ['throws' => HttpResponseException::class]);
 
         $this->service = new CorsService([
             'allow_origins' => ['http://foo.com'],
@@ -71,9 +72,7 @@ class CorsServiceTest extends \Codeception\TestCase\Test
             $this->request->headers->set('Access-Control-Request-Headers', 'accept, authorization, content-type');
 
             $response = $this->service->handlePreflightRequest($this->request);
-
-            verify($response->getStatusCode())->equals(403);
-        });
+        }, ['throws' => HttpResponseException::class]);
 
         $this->service = new CorsService([
             'allow_origins' => ['http://foo.com'],
@@ -248,29 +247,4 @@ class CorsServiceTest extends \Codeception\TestCase\Test
             verify($this->service->isPreflightRequest($this->request))->true();
         });
     }
-
-
-    public function testIsRequestAllowed()
-    {
-        $this->service = new CorsService;
-
-        $this->request  = new Request;
-
-        $this->specify('request is not allowed', function () {
-            $this->request->headers->set('Origin', 'http://foo.com');
-
-            verify($this->service->isRequestAllowed($this->request))->false();
-        });
-
-        $this->service = new CorsService([
-            'allow_origins' => ['http://foo.com'],
-        ]);
-
-        $this->specify('request is allowed', function () {
-            $this->request->headers->set('Origin', 'http://foo.com');
-
-            verify($this->service->isRequestAllowed($this->request))->true();
-        });
-    }
-
 }

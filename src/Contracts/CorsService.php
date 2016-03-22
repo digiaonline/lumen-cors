@@ -45,15 +45,4 @@ interface CorsService
      * @return bool
      */
     public function isPreflightRequest(Request $request);
-
-
-    /**
-     * Returns whether or not the request is allowed.
-     *
-     * @param Request $request
-     *
-     * @return bool
-     */
-    public function isRequestAllowed(Request $request);
-
 }
