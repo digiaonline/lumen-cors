@@ -10,7 +10,7 @@
 
 ## Requirements
 
-- PHP 5.4 or newer
+- PHP 5.5 or newer
 - [Composer](http://getcomposer.org)
 
 ## Usage
