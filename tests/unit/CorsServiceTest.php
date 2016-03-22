@@ -210,6 +210,96 @@ class CorsServiceTest extends \Codeception\TestCase\Test
     }
 
 
+    public function testCreateOriginNotAllowedResponse()
+    {
+        $this->request  = new Request;
+
+        $this->response = new Response;
+
+        $this->service = new CorsService();
+
+        $this->specify('default origin not allowed response is created', function () {
+            $response = $this->service->createOriginNotAllowedResponse($this->request);
+
+            verify($response->getContent())->equals('Origin not allowed.');
+            verify($response->getStatusCode())->equals(403);
+        });
+
+        $this->service = new CorsService([
+            'origin_not_allowed' => function ($request) {
+              return new Response('Foo', 403);
+            },
+        ]);
+
+        $this->specify('custom origin not allowed response is created', function () {
+            $response = $this->service->createOriginNotAllowedResponse($this->request);
+
+            verify($response->getContent())->equals('Foo');
+            verify($response->getStatusCode())->equals(403);
+        });
+    }
+
+
+    public function testCreateMethodNotAllowedResponse()
+    {
+        $this->request  = new Request;
+
+        $this->response = new Response;
+
+        $this->service = new CorsService();
+
+        $this->specify('default method not allowed response is created', function () {
+            $response = $this->service->createMethodNotAllowedResponse($this->request);
+
+            verify($response->getContent())->equals('Method not allowed.');
+            verify($response->getStatusCode())->equals(405);
+        });
+
+        $this->service = new CorsService([
+            'method_not_allowed' => function ($request) {
+              return new Response('Foo', 405);
+            },
+        ]);
+
+        $this->specify('custom method not allowed response is created', function () {
+            $response = $this->service->createMethodNotAllowedResponse($this->request);
+
+            verify($response->getContent())->equals('Foo');
+            verify($response->getStatusCode())->equals(405);
+        });
+    }
+
+
+    public function testCreateHeaderNotAllowedResponse()
+    {
+        $this->request  = new Request;
+
+        $this->response = new Response;
+
+        $this->service = new CorsService();
+
+        $this->specify('default header not allowed response is created', function () {
+            $response = $this->service->createHeaderNotAllowedResponse($this->request);
+
+            verify($response->getContent())->equals('Header not allowed.');
+            verify($response->getStatusCode())->equals(403);
+        });
+
+        $this->service = new CorsService([
+            'header_not_allowed' => function ($request) {
+              return new Response('Foo', 403);
+            },
+        ]);
+
+        $this->specify('custom header not allowed response is created', function () {
+            $response = $this->service->createHeaderNotAllowedResponse($this->request);
+
+            verify($response->getContent())->equals('Foo');
+            verify($response->getStatusCode())->equals(403);
+        });
+    }
+
+
     public function testIsCorsRequest()
     {
         $this->service = new CorsService;
@@ -248,29 +338,4 @@ class CorsServiceTest extends \Codeception\TestCase\Test
             verify($this->service->isPreflightRequest($this->request))->true();
         });
     }
-
-
-    public function testIsRequestAllowed()
-    {
-        $this->service = new CorsService;
-
-        $this->request  = new Request;
-
-        $this->specify('request is not allowed', function () {
-            $this->request->headers->set('Origin', 'http://foo.com');
-
-            verify($this->service->isRequestAllowed($this->request))->false();
-        });
-
-        $this->service = new CorsService([
-            'allow_origins' => ['http://foo.com'],
-        ]);
-
-        $this->specify('request is allowed', function () {
-            $this->request->headers->set('Origin', 'http://foo.com');
-
-            verify($this->service->isRequestAllowed($this->request))->true();
-        });
-    }
-
 }

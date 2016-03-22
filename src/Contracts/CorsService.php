@@ -28,6 +28,36 @@ interface CorsService
 
 
     /**
+     * Creates an origin not allowed response.
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function createOriginNotAllowedResponse(Request $request);
+
+
+    /**
+     * Creates a method not allowed response.
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function createMethodNotAllowedResponse(Request $request);
+
+
+    /**
+     * Creates a header not allowed response.
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function createHeaderNotAllowedResponse(Request $request);
+
+
+    /**
      * Returns whether or not the request is a CORS request.
      *
      * @param Request $request
@@ -45,15 +75,4 @@ interface CorsService
      * @return bool
      */
     public function isPreflightRequest(Request $request);
-
-
-    /**
-     * Returns whether or not the request is allowed.
-     *
-     * @param Request $request
-     *
-     * @return bool
-     */
-    public function isRequestAllowed(Request $request);
-
 }

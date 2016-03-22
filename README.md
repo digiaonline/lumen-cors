@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/nordsoftware/lumen-cors.svg?branch=master)](https://travis-ci.org/nordsoftware/lumen-cors)
 [![Code Climate](https://codeclimate.com/github/nordsoftware/lumen-cors/badges/gpa.svg)](https://codeclimate.com/github/nordsoftware/lumen-cors)
-[![Latest Stable Version](https://poser.pugx.org/nordsoftware/lumen-cors/version)](https://packagist.org/packages/nordsoftware/lumen-cors) 
+[![Latest Stable Version](https://poser.pugx.org/nordsoftware/lumen-cors/version)](https://packagist.org/packages/nordsoftware/lumen-cors)
 [![Total Downloads](https://poser.pugx.org/nordsoftware/lumen-cors/downloads)](https://packagist.org/packages/nordsoftware/lumen-cors)
 [![License](https://poser.pugx.org/nordsoftware/lumen-cors/license)](https://packagist.org/packages/nordsoftware/lumen-cors)
 
@@ -25,25 +25,24 @@ composer require nordsoftware/lumen-cors
 
 ### Configure
 
-Copy the configuration template in `config/cors.php` to your application's `config` directory and modify according to your needs. 
+Copy the configuration template in `config/cors.php` to your application's `config` directory and modify according to your needs.
 For more information see the [Configuration Files](http://lumen.laravel.com/docs/configuration#configuration-files) section in the Lumen documentation.
 
 Available configuration options:
 
-- **allow_origins** - *Origins that are allowed to perform requests, defaults to an empty array*
-- **allow_headers** - *HTTP headers that are allowed, defaults to an empty array*
-- **allow_methods** - *HTTP methods that are allowed, defaults to an empty array*
-- **allow_credentials** - *Whether or not the response can be exposed when credentials are present, defaults to false*
-- **expose_headers** - *HTTP headers that are allowed to be exposed to the web browser, defaults to an empty array*
-- **max_age** - *Indicates how long preflight request can be cached, defaults to 0*
+- **allow_origins** `array` *Origins that are allowed to perform requests, defaults to an empty array*
+- **allow_methods** `array` *HTTP methods that are allowed, defaults to an empty array*
+- **allow_headers** `array` *HTTP headers that are allowed, defaults to an empty array*
+- **allow_credentials** `boolean` *Whether or not the response can be exposed when credentials are present, defaults to false*
+- **expose_headers** `array` *HTTP headers that are allowed to be exposed to the web browser, defaults to an empty array*
+- **max_age** `integer` *Indicates how long preflight request can be cached, defaults to 0*
+- **origin_not_allowed** `callable` *Creates the response if the origin is not allowed*
+- **method_not_allowed** `callable` *Creates the response if the method is not allowed*
+- **header_not_allowed** `callable` *Creates the response if the header is not allowed*
 
 ### Bootstrapping
 
 Add the following lines to ```bootstrap/app.php```:
-
-```php
-$app->configure('cors');
-```
 
 ```php
 $app->register('Nord\Lumen\Cors\CorsServiceProvider');
@@ -56,7 +55,7 @@ $app->middleware([
 ]);
 ```
 
-The module now automatically handles all CORS requests. 
+The module now automatically handles all CORS requests.
 
 ## Contributing
 

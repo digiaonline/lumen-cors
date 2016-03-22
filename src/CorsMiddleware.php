@@ -42,10 +42,6 @@ class CorsMiddleware
             return $this->service->handlePreflightRequest($request);
         }
 
-        if (!$this->service->isRequestAllowed($request)) {
-            return response('Request not allowed.', 403);
-        }
-
         return $this->service->handleRequest($request, $next($request));
     }
 }
