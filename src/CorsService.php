@@ -89,7 +89,11 @@ class CorsService implements CorsServiceContract
      */
     public function handlePreflightRequest(Request $request)
     {
-        $this->validatePreflightRequest($request);
+        try {
+            $this->validatePreflightRequest($request);
+        } catch (HttpResponseException $e) {
+            return $this->createResponse($request, $e->getResponse());
+        }
 
         return $this->createPreflightResponse($request);
     }
@@ -100,7 +104,11 @@ class CorsService implements CorsServiceContract
      */
     public function handleRequest(Request $request, Response $response)
     {
-        $this->validateRequest($request);
+        try {
+            $this->validateRequest($request);
+        } catch (HttpResponseException $e) {
+            return $this->createResponse($request, $e->getResponse());
+        }
 
         return $this->createResponse($request, $response);
     }
