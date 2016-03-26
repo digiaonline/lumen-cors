@@ -45,7 +45,7 @@ class CorsServiceTest extends \Codeception\TestCase\Test
             $response = $this->service->handlePreflightRequest($this->request);
 
             verify($response->getStatusCode())->equals(403);
-        }, ['throws' => HttpResponseException::class]);
+        });
 
         $this->service = new CorsService([
             'allow_origins' => ['http://foo.com'],
@@ -59,7 +59,7 @@ class CorsServiceTest extends \Codeception\TestCase\Test
             $response = $this->service->handlePreflightRequest($this->request);
 
             verify($response->getStatusCode())->equals(405);
-        }, ['throws' => HttpResponseException::class]);
+        });
 
         $this->service = new CorsService([
             'allow_origins' => ['http://foo.com'],
@@ -72,7 +72,7 @@ class CorsServiceTest extends \Codeception\TestCase\Test
             $this->request->headers->set('Access-Control-Request-Headers', 'accept, authorization, content-type');
 
             $response = $this->service->handlePreflightRequest($this->request);
-        }, ['throws' => HttpResponseException::class]);
+        });
 
         $this->service = new CorsService([
             'allow_origins' => ['http://foo.com'],
