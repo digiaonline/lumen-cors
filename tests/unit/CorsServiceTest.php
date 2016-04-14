@@ -30,6 +30,32 @@ class CorsServiceTest extends \Codeception\TestCase\Test
      */
     protected $response;
 
+    public function testServiceConfig()
+    {
+        $this->specify('service config allow_credentials is not boolean', function () {
+            new CorsService(['allow_credentials' => 'invalid']);
+        }, ['throws' => 'Nord\Lumen\Cors\Exceptions\InvalidArgument']);
+
+        $this->specify('service config max_age is not integer', function () {
+            new CorsService(['max_age' => 'invalid']);
+        }, ['throws' => 'Nord\Lumen\Cors\Exceptions\InvalidArgument']);
+
+        $this->specify('service config max_age is less than zero', function () {
+            new CorsService(['max_age' => -1]);
+        }, ['throws' => 'Nord\Lumen\Cors\Exceptions\InvalidArgument']);
+
+        $this->specify('service config origin_not_allowed must be callable', function () {
+            new CorsService(['origin_not_allowed' => 'INVALID ORIGIN']);
+        }, ['throws' => 'Nord\Lumen\Cors\Exceptions\InvalidArgument']);
+
+        $this->specify('service config method_not_allowed must be callable', function () {
+            new CorsService(['method_not_allowed' => 'INVALID METHOD']);
+        }, ['throws' => 'Nord\Lumen\Cors\Exceptions\InvalidArgument']);
+
+        $this->specify('service config header_not_allowed must be callable', function () {
+            new CorsService(['header_not_allowed' => 'INVALID HEADER']);
+        }, ['throws' => 'Nord\Lumen\Cors\Exceptions\InvalidArgument']);
+    }
 
     public function testHandlePreflightRequest()
     {
@@ -91,6 +117,32 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         });
 
         $this->service = new CorsService([
+            'allow_origins' => ['*'],
+        ]);
+
+        $this->specify('InvalidArgument exception when origin is not set', function () {
+            $this->service->handlePreflightRequest($this->request);
+        }, ['throws' => 'Nord\Lumen\Cors\Exceptions\InvalidArgument']);
+
+        $this->service = new CorsService([
+            'allow_origins' => ['http://foo.com'],
+            'allow_methods' => ['post'],
+            'allow_headers' => ['accept', 'authorization', 'content-type'],
+        ]);
+
+        $this->service = new CorsService([
+            'allow_origins' => ['*'],
+            'allow_headers' => ['accept'],
+        ]);
+
+        $this->specify('InvalidArgument exception when header is not set', function () {
+            $this->request->headers->set('Origin', 'http://foo.com');
+            $this->request->headers->set('Access-Control-Request-Headers', 'accept, ');
+
+            $this->service->handlePreflightRequest($this->request);
+        }, ['throws' => 'Nord\Lumen\Cors\Exceptions\InvalidArgument']);
+
+        $this->service = new CorsService([
             'allow_origins' => ['http://foo.com'],
             'allow_methods' => ['post'],
             'allow_headers' => ['accept', 'authorization', 'content-type'],
@@ -142,6 +194,58 @@ class CorsServiceTest extends \Codeception\TestCase\Test
             $response = $this->service->handlePreflightRequest($this->request);
 
             verify($response->headers->get('Access-Control-Max-Age'))->equals(3600);
+        });
+
+        $this->service = new CorsService([
+            'allow_origins' => ['http://foo.com'],
+            'origin_not_allowed' => function () {
+                return new Response('INVALID ORIGIN', 403);
+            },
+        ]);
+
+        $this->specify('response origin_not_allowed header is set', function () {
+            $this->request->headers->set('Origin', 'http://bar.com');
+
+            $response = $this->service->handlePreflightRequest($this->request);
+
+            verify($response->getStatusCode())->equals(403);
+            verify($response->getContent())->equals('INVALID ORIGIN');
+        });
+
+        $this->service = new CorsService([
+            'allow_origins' => ['*'],
+            'allow_methods' => ['GET'],
+            'method_not_allowed' => function () {
+                return new Response('INVALID METHOD', 403);
+            },
+        ]);
+
+        $this->specify('response method_not_allowed header is set', function () {
+            $this->request->headers->set('Origin', 'http://foo.com');
+            $this->request->headers->set('Access-Control-Request-Method', 'POST');
+
+            $response = $this->service->handlePreflightRequest($this->request);
+
+            verify($response->getStatusCode())->equals(403);
+            verify($response->getContent())->equals('INVALID METHOD');
+        });
+
+        $this->service = new CorsService([
+            'allow_origins' => ['*'],
+            'allow_headers' => ['accept'],
+            'header_not_allowed' => function () {
+                return new Response('INVALID HEADER', 403);
+            },
+        ]);
+
+        $this->specify('response header_not_allowed header is set', function () {
+            $this->request->headers->set('Origin', 'http://foo.com');
+            $this->request->headers->set('Access-Control-Request-Headers', 'accept, authorization');
+
+            $response = $this->service->handlePreflightRequest($this->request);
+
+            verify($response->getStatusCode())->equals(403);
+            verify($response->getContent())->equals('INVALID HEADER');
         });
     }
 
@@ -205,6 +309,18 @@ class CorsServiceTest extends \Codeception\TestCase\Test
             $response = $this->service->handleRequest($this->request, $this->response);
 
             verify($response->headers->get('Access-Control-Expose-Headers'))->equals('accept, authorization, content-type');
+        });
+
+        $this->service = new CorsService([
+            'allow_origins' => ['http://foo.com'],
+        ]);
+
+        $this->specify('403 response when origin is not allowed', function () {
+            $this->request->headers->set('Origin', 'http://bar.com');
+
+            $response = $this->service->handleRequest($this->request, $this->response);
+
+            verify($response->getStatusCode())->equals(403);
         });
     }
 
