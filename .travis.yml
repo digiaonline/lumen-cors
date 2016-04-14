@@ -12,6 +12,7 @@ php:
 
 before_script:
   - mkdir -p /home/travis/.phpenv/versions/$(phpenv version-name)/etc/conf.d
+  - phpenv config-add tests/xdebug.ini
   - composer self-update
   - composer install --prefer-source
 
