@@ -7,13 +7,16 @@ php:
   - 5.5
   - 5.6
   - 7.0
-  - hhvm
   - nightly
 
 before_script:
   - mkdir -p /home/travis/.phpenv/versions/$(phpenv version-name)/etc/conf.d
-  - phpenv config-add tests/xdebug.ini
   - composer self-update
   - composer install --prefer-source
 
-script: vendor/bin/codecept run unit
+script: vendor/bin/codecept run unit --coverage --report --coverage-xml
+
+after_success:
+ - mkdir -p build/logs
+ - cp tests/_output/coverage.xml build/logs/clover.xml
+ - php vendor/bin/coveralls -v
