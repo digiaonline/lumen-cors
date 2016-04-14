@@ -12,14 +12,12 @@ php:
 
 before_script:
   - mkdir -p /home/travis/.phpenv/versions/$(phpenv version-name)/etc/conf.d
-  - phpenv config-add tests/xdebug.ini
   - composer self-update
   - composer install --prefer-source
 
 script: vendor/bin/codecept run unit --coverage --report --coverage-xml
 
 after_success:
- - mkdir build
- - mkdir build/logs
+ - mkdir -p build/logs
  - cp tests/_output/coverage.xml build/logs/clover.xml
  - php vendor/bin/coveralls -v
