@@ -7,7 +7,6 @@ use Nord\Lumen\Cors\Contracts\CorsService as CorsServiceContract;
 
 class CorsServiceProvider extends ServiceProvider
 {
-
     const CONFIG_KEY = 'cors';
 
     /**
