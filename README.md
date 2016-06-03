@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/nordsoftware/lumen-cors.svg?branch=master)](https://travis-ci.org/nordsoftware/lumen-cors)
 [![Coverage Status](https://coveralls.io/repos/github/nordsoftware/lumen-cors/badge.svg?branch=master)](https://coveralls.io/github/nordsoftware/lumen-cors?branch=master)
 [![Code Climate](https://codeclimate.com/github/nordsoftware/lumen-cors/badges/gpa.svg)](https://codeclimate.com/github/nordsoftware/lumen-cors)
+[![StyleCI](https://styleci.io/repos/35571263/shield?style=flat)](https://styleci.io/repos/35571263)
 [![Latest Stable Version](https://poser.pugx.org/nordsoftware/lumen-cors/version)](https://packagist.org/packages/nordsoftware/lumen-cors)
 [![Total Downloads](https://poser.pugx.org/nordsoftware/lumen-cors/downloads)](https://packagist.org/packages/nordsoftware/lumen-cors)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
