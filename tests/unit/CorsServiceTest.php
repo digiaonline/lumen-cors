@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CorsServiceTest extends \Codeception\TestCase\Test
 {
-
     use Codeception\Specify;
 
     /**
