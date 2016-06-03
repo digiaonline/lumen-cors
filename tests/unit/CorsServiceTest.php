@@ -1,13 +1,11 @@
 <?php
 
 use Nord\Lumen\Cors\CorsService;
-use Illuminate\Http\Exception\HttpResponseException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CorsServiceTest extends \Codeception\TestCase\Test
 {
-
     use Codeception\Specify;
 
     /**
@@ -59,9 +57,9 @@ class CorsServiceTest extends \Codeception\TestCase\Test
 
     public function testHandlePreflightRequest()
     {
-        $this->service = new CorsService;
+        $this->service = new CorsService();
 
-        $this->request = new Request;
+        $this->request = new Request();
 
         $this->specify('403 response if origin is not allowed', function () {
             $this->request->headers->set('Origin', 'http://foo.com');
@@ -197,7 +195,7 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         });
 
         $this->service = new CorsService([
-            'allow_origins' => ['http://foo.com'],
+            'allow_origins'      => ['http://foo.com'],
             'origin_not_allowed' => function () {
                 return new Response('INVALID ORIGIN', 403);
             },
@@ -213,8 +211,8 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         });
 
         $this->service = new CorsService([
-            'allow_origins' => ['*'],
-            'allow_methods' => ['GET'],
+            'allow_origins'      => ['*'],
+            'allow_methods'      => ['GET'],
             'method_not_allowed' => function () {
                 return new Response('INVALID METHOD', 403);
             },
@@ -231,8 +229,8 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         });
 
         $this->service = new CorsService([
-            'allow_origins' => ['*'],
-            'allow_headers' => ['accept'],
+            'allow_origins'      => ['*'],
+            'allow_headers'      => ['accept'],
             'header_not_allowed' => function () {
                 return new Response('INVALID HEADER', 403);
             },
@@ -249,12 +247,11 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         });
     }
 
-
     public function testHandleRequest()
     {
-        $this->request  = new Request;
+        $this->request = new Request();
 
-        $this->response = new Response;
+        $this->response = new Response();
 
         $this->service = new CorsService([
             'allow_origins' => ['*'],
@@ -324,12 +321,11 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         });
     }
 
-
     public function testIsCorsRequest()
     {
-        $this->service = new CorsService;
+        $this->service = new CorsService();
 
-        $this->request  = new Request;
+        $this->request = new Request();
 
         $this->specify('cors request is recognized', function () {
             verify($this->service->isCorsRequest($this->request))->false();
@@ -340,12 +336,11 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         });
     }
 
-
     public function testIsPreflightRequest()
     {
-        $this->service = new CorsService;
+        $this->service = new CorsService();
 
-        $this->request  = new Request;
+        $this->request = new Request();
 
         $this->specify('preflight request is recognized', function () {
             verify($this->service->isPreflightRequest($this->request))->false();
