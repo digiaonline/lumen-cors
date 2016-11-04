@@ -1,4 +1,6 @@
-<?php namespace Nord\Lumen\Cors;
+<?php
+
+namespace Nord\Lumen\Cors;
 
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Container\Container;
@@ -7,11 +9,10 @@ use Nord\Lumen\Cors\Contracts\CorsService as CorsServiceContract;
 
 class CorsServiceProvider extends ServiceProvider
 {
-
     const CONFIG_KEY = 'cors';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function register()
     {
@@ -20,7 +21,6 @@ class CorsServiceProvider extends ServiceProvider
         $this->registerBindings($this->app, $this->app['config']);
         $this->registerFacades();
     }
-
 
     /**
      * Registers container bindings.
@@ -36,7 +36,6 @@ class CorsServiceProvider extends ServiceProvider
 
         $container->alias(CorsService::class, CorsServiceContract::class);
     }
-
 
     /**
      * Registers facades.
