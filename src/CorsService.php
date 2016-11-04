@@ -1,14 +1,15 @@
-<?php namespace Nord\Lumen\Cors;
+<?php
+
+namespace Nord\Lumen\Cors;
 
 use Illuminate\Http\Exception\HttpResponseException;
+use Nord\Lumen\Cors\Contracts\CorsService as CorsServiceContract;
 use Nord\Lumen\Cors\Exceptions\InvalidArgument;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Nord\Lumen\Cors\Contracts\CorsService as CorsServiceContract;
 
 class CorsService implements CorsServiceContract
 {
-
     /**
      * Allowed request origins.
      *
@@ -54,24 +55,23 @@ class CorsService implements CorsServiceContract
     /**
      * Creates the response if the origin is not allowed.
      *
-     * @var Callable
+     * @var callable
      */
     private $originNotAllowed;
 
     /**
      * Creates the response if the method is not allowed.
      *
-     * @var Callable
+     * @var callable
      */
     private $methodNotAllowed;
 
     /**
      * Creates the response if the header is not allowed.
      *
-     * @var Callable
+     * @var callable
      */
     private $headerNotAllowed;
-
 
     /**
      * CorsService constructor.
@@ -83,9 +83,8 @@ class CorsService implements CorsServiceContract
         $this->configure($config);
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handlePreflightRequest(Request $request)
     {
@@ -98,9 +97,8 @@ class CorsService implements CorsServiceContract
         return $this->createPreflightResponse($request);
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handleRequest(Request $request, Response $response)
     {
@@ -113,24 +111,21 @@ class CorsService implements CorsServiceContract
         return $this->createResponse($request, $response);
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isCorsRequest(Request $request)
     {
         return $request->headers->has('Origin');
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isPreflightRequest(Request $request)
     {
         return $this->isCorsRequest($request) && $request->isMethod('OPTIONS') && $request->headers->has('Access-Control-Request-Method');
     }
-
 
     /**
      * Configures the service.
@@ -176,7 +171,6 @@ class CorsService implements CorsServiceContract
         }
     }
 
-
     /**
      * @param Request $request
      *
@@ -209,7 +203,6 @@ class CorsService implements CorsServiceContract
             }
         }
     }
-
 
     /**
      * Creates a preflight response.
@@ -247,7 +240,6 @@ class CorsService implements CorsServiceContract
         return $response;
     }
 
-
     /**
      * @param Request $request
      *
@@ -262,7 +254,6 @@ class CorsService implements CorsServiceContract
         }
     }
 
-
     /**
      * @param Request  $request
      * @param Response $response
@@ -275,7 +266,7 @@ class CorsService implements CorsServiceContract
 
         $response->headers->set('Access-Control-Allow-Origin', $origin);
 
-        $vary = $request->headers->has('Vary') ? $request->headers->get('Vary') . ', Origin' : 'Origin';
+        $vary = $request->headers->has('Vary') ? $request->headers->get('Vary').', Origin' : 'Origin';
         $response->headers->set('Vary', $vary);
 
         if ($this->allowCredentials) {
@@ -289,9 +280,8 @@ class CorsService implements CorsServiceContract
         return $response;
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function createOriginNotAllowedResponse(Request $request)
     {
@@ -300,9 +290,8 @@ class CorsService implements CorsServiceContract
             : $this->createErrorResponse('Origin not allowed.', 403);
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function createMethodNotAllowedResponse(Request $request)
     {
@@ -311,9 +300,8 @@ class CorsService implements CorsServiceContract
             : $this->createErrorResponse('Method not allowed.', 405);
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function createHeaderNotAllowedResponse(Request $request)
     {
@@ -321,7 +309,6 @@ class CorsService implements CorsServiceContract
             ? call_user_func($this->headerNotAllowed, $request)
             : $this->createErrorResponse('Header not allowed.', 403);
     }
-
 
     /**
      * Creates an error response.
@@ -335,7 +322,6 @@ class CorsService implements CorsServiceContract
     {
         return new Response($content, $status);
     }
-
 
     /**
      * Returns whether or not the origin is allowed.
@@ -357,7 +343,6 @@ class CorsService implements CorsServiceContract
         return in_array($origin, $this->allowOrigins);
     }
 
-
     /**
      * Returns whether or not the method is allowed.
      *
@@ -377,7 +362,6 @@ class CorsService implements CorsServiceContract
 
         return in_array(strtoupper($method), $this->allowMethods);
     }
-
 
     /**
      * Returns whether or not the header is allowed.
@@ -399,7 +383,6 @@ class CorsService implements CorsServiceContract
         return in_array(strtolower($header), $this->allowHeaders);
     }
 
-
     /**
      * @return bool
      */
@@ -407,7 +390,6 @@ class CorsService implements CorsServiceContract
     {
         return in_array('*', $this->allowOrigins);
     }
-
 
     /**
      * @return bool
@@ -417,7 +399,6 @@ class CorsService implements CorsServiceContract
         return in_array('*', $this->allowMethods);
     }
 
-
     /**
      * @return bool
      */
@@ -425,7 +406,6 @@ class CorsService implements CorsServiceContract
     {
         return in_array('*', $this->allowHeaders);
     }
-
 
     /**
      * @param array $allowOrigins
@@ -435,7 +415,6 @@ class CorsService implements CorsServiceContract
         $this->allowOrigins = $allowOrigins;
     }
 
-
     /**
      * @param array $allowMethods
      */
@@ -443,7 +422,6 @@ class CorsService implements CorsServiceContract
     {
         $this->allowMethods = array_map('strtoupper', $allowMethods);
     }
-
 
     /**
      * @param array $allowHeaders
@@ -453,7 +431,6 @@ class CorsService implements CorsServiceContract
         $this->allowHeaders = array_map('strtolower', $allowHeaders);
     }
 
-
     /**
      * @param array $exposeHeaders
      */
@@ -462,9 +439,8 @@ class CorsService implements CorsServiceContract
         $this->exposeHeaders = array_map('strtolower', $exposeHeaders);
     }
 
-
     /**
-     * @param boolean $allowCredentials
+     * @param bool $allowCredentials
      */
     protected function setAllowCredentials($allowCredentials)
     {
@@ -474,7 +450,6 @@ class CorsService implements CorsServiceContract
 
         $this->allowCredentials = $allowCredentials;
     }
-
 
     /**
      * @param int $maxAge
@@ -492,9 +467,8 @@ class CorsService implements CorsServiceContract
         $this->maxAge = $maxAge;
     }
 
-
     /**
-     * @param Callable $originNotAllowed
+     * @param callable $originNotAllowed
      */
     protected function setOriginNotAllowed($originNotAllowed)
     {
@@ -505,9 +479,8 @@ class CorsService implements CorsServiceContract
         $this->originNotAllowed = $originNotAllowed;
     }
 
-
     /**
-     * @param Callable $methodNotAllowed
+     * @param callable $methodNotAllowed
      */
     protected function setMethodNotAllowed($methodNotAllowed)
     {
@@ -518,9 +491,8 @@ class CorsService implements CorsServiceContract
         $this->methodNotAllowed = $methodNotAllowed;
     }
 
-
     /**
-     * @param Callable $headerNotAllowed
+     * @param callable $headerNotAllowed
      */
     protected function setHeaderNotAllowed($headerNotAllowed)
     {

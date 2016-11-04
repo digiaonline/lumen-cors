@@ -1,11 +1,12 @@
-<?php namespace Nord\Lumen\Cors\Contracts;
+<?php
+
+namespace Nord\Lumen\Cors\Contracts;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 interface CorsService
 {
-
     /**
      * Handles a preflight request.
      *
@@ -14,7 +15,6 @@ interface CorsService
      * @return Response
      */
     public function handlePreflightRequest(Request $request);
-
 
     /**
      * Handles the actual request.
@@ -26,7 +26,6 @@ interface CorsService
      */
     public function handleRequest(Request $request, Response $response);
 
-
     /**
      * Returns whether or not the request is a CORS request.
      *
@@ -35,7 +34,6 @@ interface CorsService
      * @return bool
      */
     public function isCorsRequest(Request $request);
-
 
     /**
      * Returns whether or not the request is a preflight request.

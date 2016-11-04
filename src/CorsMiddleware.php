@@ -1,17 +1,17 @@
-<?php namespace Nord\Lumen\Cors;
+<?php
+
+namespace Nord\Lumen\Cors;
 
 use Closure;
-use Nord\Lumen\Cors\Contracts\CorsService;
 use Illuminate\Http\Request;
+use Nord\Lumen\Cors\Contracts\CorsService;
 
 class CorsMiddleware
 {
-
     /**
      * @var CorsService
      */
     private $service;
-
 
     /**
      * CorsMiddleware constructor.
@@ -23,12 +23,11 @@ class CorsMiddleware
         $this->service = $service;
     }
 
-
     /**
      * Run the request filter.
      *
-     * @param  Request $request
-     * @param  Closure $next
+     * @param Request $request
+     * @param Closure $next
      *
      * @return mixed
      */
