@@ -14,8 +14,9 @@
 
 ## Requirements
 
-- PHP 5.5 or newer
+- PHP 5.6 or newer
 - [Composer](http://getcomposer.org)
+- [Lumen](https://lumen.laravel.com/) 5.3 or newer
 
 ## Usage
 
