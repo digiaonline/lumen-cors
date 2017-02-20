@@ -12,11 +12,13 @@
 
 [Cross-Origin Resource Sharing](http://enable-cors.org/) (CORS) module for the [Lumen PHP framework](http://lumen.laravel.com/).
 
+**NOTE:** Branch 5.3 uses Lumen framework 5.3. Only bug-fixes 1.7.X should be tagged in the 5.3 branch.
+
 ## Requirements
 
 - PHP 5.6 or newer
 - [Composer](http://getcomposer.org)
-- [Lumen](https://lumen.laravel.com/) 5.3 or newer
+- [Lumen](https://lumen.laravel.com/) 5.4 or newer
 
 ## Usage
 
