@@ -1,6 +1,6 @@
 <?php namespace Nord\Lumen\Cors;
 
-use Illuminate\Http\Exception\HttpResponseException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Nord\Lumen\Cors\Exceptions\InvalidArgument;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -329,7 +329,7 @@ class CorsService implements CorsServiceContract
      * @param string $content
      * @param int    $status
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     protected function createErrorResponse($content = '', $status = 400)
     {
