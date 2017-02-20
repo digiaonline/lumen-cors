@@ -1,14 +1,15 @@
 <?php
 
+namespace Nord\Lumen\Cors\Tests;
+
 use Nord\Lumen\Cors\CorsService;
 use Illuminate\Http\Exception\HttpResponseException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CorsServiceTest extends \Codeception\TestCase\Test
+class CorsServiceTest extends \Codeception\Test\Unit
 {
-
-    use Codeception\Specify;
+    use \Codeception\Specify;
 
     /**
      * @var \UnitTester
@@ -123,12 +124,6 @@ class CorsServiceTest extends \Codeception\TestCase\Test
         $this->specify('InvalidArgument exception when origin is not set', function () {
             $this->service->handlePreflightRequest($this->request);
         }, ['throws' => 'Nord\Lumen\Cors\Exceptions\InvalidArgument']);
-
-        $this->service = new CorsService([
-            'allow_origins' => ['http://foo.com'],
-            'allow_methods' => ['post'],
-            'allow_headers' => ['accept', 'authorization', 'content-type'],
-        ]);
 
         $this->service = new CorsService([
             'allow_origins' => ['*'],

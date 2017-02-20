@@ -282,7 +282,7 @@ class CorsService implements CorsServiceContract
             $response->headers->set('Access-Control-Allow-Credentials', 'true');
         }
 
-        if ($this->exposeHeaders) {
+        if (!empty($this->exposeHeaders)) {
             $response->headers->set('Access-Control-Expose-Headers', implode(', ', $this->exposeHeaders));
         }
 
@@ -340,14 +340,16 @@ class CorsService implements CorsServiceContract
     /**
      * Returns whether or not the origin is allowed.
      *
-     * @param string $origin
+     * @param mixed $origin
      *
      * @return bool
+     *
+     * @throws InvalidArgument
      */
     protected function isOriginAllowed($origin)
     {
-        if (!$origin) {
-            throw new InvalidArgument('Origin cannot be empty.');
+        if (!is_string($origin) || empty($origin)) {
+            throw new InvalidArgument('Origin must be non empty string.');
         }
 
         if ($this->isAllOriginsAllowed()) {
@@ -361,14 +363,16 @@ class CorsService implements CorsServiceContract
     /**
      * Returns whether or not the method is allowed.
      *
-     * @param string $method
+     * @param mixed $method
      *
      * @return bool
+     *
+     * @throws InvalidArgument
      */
     protected function isMethodAllowed($method)
     {
-        if (!$method) {
-            throw new InvalidArgument('Method cannot be empty.');
+        if (!is_string($method) || empty($method)) {
+            throw new InvalidArgument('Method must be a non empty string.');
         }
 
         if ($this->isAllMethodsAllowed()) {
@@ -382,14 +386,16 @@ class CorsService implements CorsServiceContract
     /**
      * Returns whether or not the header is allowed.
      *
-     * @param string $header
+     * @param mixed $header
      *
      * @return bool
+     *
+     * @throws InvalidArgument
      */
     protected function isHeaderAllowed($header)
     {
-        if (!$header) {
-            throw new InvalidArgument('Header cannot be empty.');
+        if (!is_string($header) || empty($header)) {
+            throw new InvalidArgument('Header must be a non empty string.');
         }
 
         if ($this->isAllHeadersAllowed()) {
@@ -465,6 +471,8 @@ class CorsService implements CorsServiceContract
 
     /**
      * @param boolean $allowCredentials
+     *
+     * @throws InvalidArgument
      */
     protected function setAllowCredentials($allowCredentials)
     {
@@ -478,6 +486,8 @@ class CorsService implements CorsServiceContract
 
     /**
      * @param int $maxAge
+     *
+     * @throws InvalidArgument
      */
     protected function setMaxAge($maxAge)
     {
@@ -495,6 +505,8 @@ class CorsService implements CorsServiceContract
 
     /**
      * @param Callable $originNotAllowed
+     *
+     * @throws InvalidArgument
      */
     protected function setOriginNotAllowed($originNotAllowed)
     {
@@ -508,6 +520,8 @@ class CorsService implements CorsServiceContract
 
     /**
      * @param Callable $methodNotAllowed
+     *
+     * @throws InvalidArgument
      */
     protected function setMethodNotAllowed($methodNotAllowed)
     {
@@ -521,6 +535,8 @@ class CorsService implements CorsServiceContract
 
     /**
      * @param Callable $headerNotAllowed
+     *
+     * @throws InvalidArgument
      */
     protected function setHeaderNotAllowed($headerNotAllowed)
     {
