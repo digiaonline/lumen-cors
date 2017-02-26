@@ -2,6 +2,7 @@
 
 namespace Nord\Lumen\Cors\Tests;
 
+use Closure;
 use Nord\Lumen\Cors\CorsService;
 use Illuminate\Http\Exception\HttpResponseException;
 use Symfony\Component\HttpFoundation\Request;
@@ -256,7 +257,8 @@ class CorsServiceTest extends \Codeception\Test\Unit
 
         $this->response = new Response;
 
-        $this->closure  = function () {
+        $this->closure  = function (Request $request) {
+
             return new Response;
         };
 
