@@ -21,7 +21,7 @@ interface CorsService
      * Handles the actual request.
      *
      * @param Request  $request
-     * @param Response $response
+     * @param Closure $next
      *
      * @return Response
      */
