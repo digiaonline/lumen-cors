@@ -31,6 +31,11 @@ class CorsServiceTest extends \Codeception\Test\Unit
      */
     protected $response;
 
+    /**
+     * @var Closure
+     */
+    protected $closure;
+
     public function testServiceConfig()
     {
         $this->specify('service config allow_credentials is not boolean', function () {
@@ -251,7 +256,7 @@ class CorsServiceTest extends \Codeception\Test\Unit
 
         $this->response = new Response;
 
-        $this->closure  = function (Request $request) {
+        $this->closure  = function () {
             return new Response;
         };
 
