@@ -257,7 +257,7 @@ class CorsServiceTest extends \Codeception\Test\Unit
 
         $this->response = new Response;
 
-        $this->closure  = function (Request $request) {
+        $this->closure  = function () {
             return new Response;
         };
 
