@@ -55,6 +55,22 @@ class CorsMiddlewareTest extends \Codeception\Test\Unit
             verify($res)->hasAttribute('headers');
             verify($res->headers->get('Access-Control-Allow-Origin'))->equals('http://example.com');
         });
+
+        $service = new CorsService([
+            'allow_origins' => ['http://foo.com'],
+        ]);
+        $this->middleware = new CorsMiddleware($service);
+        $this->specify('Closure not called when origin is not allowed', function () {
+            $req = new Request();
+            $req->headers->set('Origin', 'http://bar.com');
+            $res = $this->middleware->handle($req, function () {
+                $res = new JsonResponse();
+                $res->headers->set('X-Closure-Called', 1);
+                return $res;
+            });
+            verify($res)->hasAttribute('headers');
+            verify($res->headers->get('X-Closure-Called'))->equals(null);
+        });
     }
 
     /**

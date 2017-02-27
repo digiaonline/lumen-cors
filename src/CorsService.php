@@ -1,5 +1,6 @@
 <?php namespace Nord\Lumen\Cors;
 
+use Closure;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Nord\Lumen\Cors\Exceptions\InvalidArgument;
 use Symfony\Component\HttpFoundation\Request;
@@ -102,7 +103,7 @@ class CorsService implements CorsServiceContract
     /**
      * @inheritdoc
      */
-    public function handleRequest(Request $request, Response $response)
+    public function handleRequest(Request $request, Closure $next)
     {
         try {
             $this->validateRequest($request);
@@ -110,7 +111,7 @@ class CorsService implements CorsServiceContract
             return $this->createResponse($request, $e->getResponse());
         }
 
-        return $this->createResponse($request, $response);
+        return $this->createResponse($request, $next($request));
     }
 
 
