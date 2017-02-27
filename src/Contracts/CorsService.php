@@ -1,5 +1,6 @@
 <?php namespace Nord\Lumen\Cors\Contracts;
 
+use Closure;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,11 +21,11 @@ interface CorsService
      * Handles the actual request.
      *
      * @param Request  $request
-     * @param Response $response
+     * @param Closure $next
      *
      * @return Response
      */
-    public function handleRequest(Request $request, Response $response);
+    public function handleRequest(Request $request, Closure $next);
 
 
     /**

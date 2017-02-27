@@ -20,6 +20,12 @@ NOTE: Always keep an Unreleased version at the top of this CHANGELOG for easy up
 ### Security
 - To invite users to upgrade in case of vulnerabilities.
 
+## [2.1.0] - 2017-02-27
+### Changed
+- Do not call closure in CorsMiddleware::handle() before CORS validation in CorsService::handleRequest().
+- Update tests.
+- Update CHANGELOG.
+
 ## [2.0.1] - 2017-02-20
 ### Changed
 - Composer lock-file.
@@ -168,7 +174,9 @@ NOTE: Always keep an Unreleased version at the top of this CHANGELOG for easy up
 ### Added
 - Project files.
 
-[Unreleased]: https://github.com/nordsoftware/lumen-cors/compare/2.0.0...HEAD
+[Unreleased]: https://github.com/nordsoftware/lumen-cors/compare/2.1.0...HEAD
+[2.1.0]: https://github.com/nordsoftware/lumen-cors/compare/2.0.1...2.1.0
+[2.0.1]: https://github.com/nordsoftware/lumen-cors/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/nordsoftware/lumen-cors/compare/1.7.0...2.0.0
 [1.7.0]: https://github.com/nordsoftware/lumen-cors/compare/1.6.0...1.7.0
 [1.6.0]: https://github.com/nordsoftware/lumen-cors/compare/1.5.2...1.6.0
