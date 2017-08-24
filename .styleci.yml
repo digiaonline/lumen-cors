@@ -1,1 +1,4 @@
 preset: psr2
+
+exclude:
+  - "tests/support/_generated"
