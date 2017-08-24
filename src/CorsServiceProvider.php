@@ -15,6 +15,8 @@ class CorsServiceProvider extends ServiceProvider
         // In Lumen application configuration files needs to be loaded implicitly
         if ($this->app instanceof \Laravel\Lumen\Application) {
             $this->app->configure(self::CONFIG_KEY);
+        } else {
+            $this->publishes([$this->configPath() => config_path('cors.php')]);
         }
 
         $this->registerBindings();
@@ -44,5 +46,15 @@ class CorsServiceProvider extends ServiceProvider
         if (!class_exists('Cors')) {
             class_alias(CorsFacade::class, 'Cors');
         }
+    }
+
+    /**
+     * Default config file path
+     *
+     * @return string
+     */
+    protected function configPath()
+    {
+        return __DIR__ . '/../config/cors.php';
     }
 }
