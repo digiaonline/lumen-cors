@@ -1,7 +1,5 @@
 <?php namespace Nord\Lumen\Cors;
 
-use Illuminate\Config\Repository as ConfigRepository;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
 use Nord\Lumen\Cors\Contracts\CorsService as CorsServiceContract;
 
@@ -14,26 +12,27 @@ class CorsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->configure(self::CONFIG_KEY);
+        // In Lumen application configuration files needs to be loaded implicitly
+        if ($this->app instanceof \Laravel\Lumen\Application) {
+            $this->app->configure(self::CONFIG_KEY);
+        }
 
-        $this->registerBindings($this->app, $this->app['config']);
+        $this->registerBindings();
         $this->registerFacades();
     }
 
 
     /**
      * Registers container bindings.
-     *
-     * @param Container        $container
-     * @param ConfigRepository $config
      */
-    protected function registerBindings(Container $container, ConfigRepository $config)
+    protected function registerBindings()
     {
-        $container->bind(CorsService::class, function () use ($config) {
-            return new CorsService($config[self::CONFIG_KEY]);
+        // TODO: Change to bind the implementation to the interface instead.
+        $this->app->bind(CorsService::class, function () {
+            return new CorsService(config(self::CONFIG_KEY));
         });
 
-        $container->alias(CorsService::class, CorsServiceContract::class);
+        $this->app->alias(CorsService::class, CorsServiceContract::class);
     }
 
 
