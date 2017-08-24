@@ -199,10 +199,10 @@ class CorsService implements CorsServiceContract
         }
 
         if (!$this->isAllHeadersAllowed()) {
-            $headers = $request->headers->get('Access-Control-Request-Headers');
+            $headers = str_replace(' ', '', $request->headers->get('Access-Control-Request-Headers'));
 
             if (is_string($headers)) {
-                foreach (explode(', ', $headers) as $header) {
+                foreach (explode(',', $headers) as $header) {
                     if (!$this->isHeaderAllowed($header)) {
                         throw new HttpResponseException($this->createHeaderNotAllowedResponse($request));
                     }
