@@ -8,7 +8,6 @@
 [![Latest Stable Version](https://poser.pugx.org/nordsoftware/lumen-cors/version)](https://packagist.org/packages/nordsoftware/lumen-cors)
 [![Total Downloads](https://poser.pugx.org/nordsoftware/lumen-cors/downloads)](https://packagist.org/packages/nordsoftware/lumen-cors)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Gitter](https://img.shields.io/gitter/room/norsoftware/open-source.svg?maxAge=2592000)](https://gitter.im/nordsoftware/open-source)
 
 [Cross-Origin Resource Sharing](http://enable-cors.org/) (CORS) module for the [Lumen PHP framework](http://lumen.laravel.com/).
 
