@@ -379,6 +379,42 @@ class CorsService implements CorsServiceContract
         if ($this->isAllMethodsAllowed()) {
             return true;
         }
+        
+        if (preg_match('#\*\.#', implode('|', $this->allowOrigins)) !== false) {
+			//All subdomains should match !
+			$domains = array();
+			foreach ($this->allowOrigins as $entry) {
+				if (preg_match('#\*\.#', $entry) !== false) {
+					$domains[] = $entry;
+				}
+			}
+			//Let's split the comparaison to scheme://host:port as in https://tools.ietf.org/html/rfc6454#section-7.1
+			$originProtocol = substr($origin, 0, strpos($origin, '://'));
+			$originHost = str_replace($originProtocol.'://', '', $origin);
+			$originHost = substr($originHost, 0, strpos($originHost, ':'));
+			$originPort = substr($originHost, strpos($originHost, ':')+1);
+			
+			foreach ($domains as $domain) {
+				$domainProtocol = substr($domain, 0, strpos($domain, '://'));
+				if ($domainProtocol == $originProtocol) {
+					//Same protocol, next step
+					$domainHost = str_replace($domainProtocol.'://', '', $domain);
+					//Escape all the dots
+					$domainHostRE = str_replace('.', '\.', $domainHost);
+					/* 
+					 * Create the final RegExp, like (.*\.)?example\.com
+					 * This would match :
+					 *  - example.com
+					 *  - www.example.com
+					 *  - subdomain.example.com
+					 */
+					$domainHostRE = str_replace('*\.', '(.*\.)?', $domainHostRE);
+					if (preg_match('#'.$domainHostRE.'#', $originHost) !== false) {
+						return true;
+					}
+				}
+			}
+		}
 
         return in_array(strtoupper($method), $this->allowMethods);
     }
