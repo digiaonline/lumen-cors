@@ -6,6 +6,7 @@ use Nord\Lumen\Cors\Exceptions\InvalidArgument;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Nord\Lumen\Cors\Contracts\CorsService as CorsServiceContract;
+use League\Uri\UriParser;
 
 class CorsService implements CorsServiceContract
 {
@@ -357,23 +358,24 @@ class CorsService implements CorsServiceContract
             return true;
         }
 	    
-    	if (preg_match('#\*\.#', implode('|', $this->allowOrigins)) !== false) {
+    	if (preg_match('#\*\.#', implode('|', $this->allowOrigins)) !== 0) {
 			//All subdomains should match !
 			$domains = array();
 			foreach ($this->allowOrigins as $entry) {
-				if (preg_match('#\*\.#', $entry) !== false) {
+				if (preg_match('#\*\.#', $entry) !== 0) {
 					$domains[] = $entry;
 				}
 			}
 			//Lets parse the uri to extract some parts
-			$parser = new Parser();
-			$originParsed = $parser($origin);
+			$parser = new UriParser();
+			$originParsed = $parser->parse($origin);
 
 			foreach ($domains as $domain) {
-				$domainParsed = $parser($domain);
+				//UriParser consider (rightly) *. as an invalid subdomain, so we have to replace it
+				$domainParsed = $parser->parse(str_replace('*', 'wildcard', $domain));
 				if ($domainParsed['scheme'] == $originParsed['scheme']) {
 					//Same protocol, next step
-					$domainHost = $domainParsed['host'];
+					$domainHost = str_replace('wildcard', '*', $domainParsed['host']);
 					/* 
 					 * Create the final RegExp, like (.*\.)?example\.com
 					 * This would match :
@@ -386,7 +388,7 @@ class CorsService implements CorsServiceContract
 					//Place the RegExp
 					$domainHostRE = str_replace('*\.', '(.+\.)?', $domainHostRE);
 					
-					if (preg_match('#'.$domainHostRE.'#', $originParsed['host']) !== false) {
+					if (preg_match('#'.$domainHostRE.'#', $originParsed['host']) !== 0) {
 						return true;
 					}
 				}
