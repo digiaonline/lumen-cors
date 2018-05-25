@@ -358,46 +358,64 @@ class CorsService implements CorsServiceContract
             return true;
         }
 	    
-    	if (preg_match('#\*\.#', implode('|', $this->allowOrigins)) !== 0) {
-			//All subdomains should match !
-			$domains = array();
-			foreach ($this->allowOrigins as $entry) {
-				if (preg_match('#\*\.#', $entry) !== 0) {
-					$domains[] = $entry;
-				}
-			}
-			//Lets parse the uri to extract some parts
-			$parser = new UriParser();
-			$originParsed = $parser->parse($origin);
-
-			foreach ($domains as $domain) {
-				//UriParser consider (rightly) *. as an invalid subdomain, so we have to replace it
-				$domainParsed = $parser->parse(str_replace('*', 'wildcard', $domain));
-				if ($domainParsed['scheme'] == $originParsed['scheme']) {
-					//Same protocol, next step
-					$domainHost = str_replace('wildcard', '*', $domainParsed['host']);
-					/* 
-					 * Create the final RegExp, like (.*\.)?example\.com
-					 * This would match :
-					 *  - example.com
-					 *  - www.example.com
-					 *  - subdomain.example.com
-					 */
-					//Escape all the dots
-					$domainHostRE = str_replace('.', '\.', $domainHost);
-					//Place the RegExp
-					$domainHostRE = str_replace('*\.', '(.+\.)?', $domainHostRE);
-					
-					if (preg_match('#'.$domainHostRE.'#', $originParsed['host']) !== 0) {
-						return true;
-					}
-				}
-			}
-		}
+    	if ($this->hasWildcardOrigins()) {
+	    if ($this->isOriginInWildcardOrigins($origin)) {
+	        return true;
+	    }
+        }
 
         return in_array($origin, $this->allowOrigins);
     }
+	
+	
+    /**
+     * Returns whether or not the origin is allowed as a domain or subdomain of an wildcard origins.
+     *
+     * @param mixed $origin
+     *
+     * @return bool
+     *
+     * @throws InvalidArgument
+     */
+    protected function isOriginInWildcardOrigins($origin)
+    {
+        if (!is_string($origin) || empty($origin)) {
+            throw new InvalidArgument('Origin must be non empty string.');
+        }
 
+        $matchedOrigins = $this->getWildcardOrigins();
+        $hasMatch = false;
+
+        //Lets parse the uri to extract some parts
+        $parser = new UriParser();
+        $originParsed = $parser->parse($origin);
+        foreach ($matchedOrigins as $domain) {
+            //UriParser consider (rightly) *. as an invalid subdomain, so we have to replace it
+            $wildcardDomain = str_replace('*', 'wildcard', $domain);
+            $domainParsed = $parser->parse($wildcardDomain);
+            if ($domainParsed['scheme'] == $originParsed['scheme']) {
+                //Same protocol, next step
+                $domainHost = str_replace('wildcard', '*', $domainParsed['host']);
+                /* 
+                 * Create the final RegExp, like (.*\.)?example\.com
+                 * This would match :
+                 *  - example.com
+                 *  - www.example.com
+                 *  - subdomain.example.com
+                 */
+                //Escape all the dots
+                $domainHostRE = str_replace('.', '\.', $domainHost);
+                //Place the RegExp
+                $domainHostRE = str_replace('*\.', '(.+\.)?', $domainHostRE);
+
+                if (preg_match('#'.$domainHostRE.'#', $originParsed['host']) !== 0) {
+                    $hasMatch = true;
+                }
+            }
+        }
+
+        return $hasMatch;
+    }
 
     /**
      * Returns whether or not the method is allowed.
@@ -452,7 +470,26 @@ class CorsService implements CorsServiceContract
     {
         return in_array('*', $this->allowOrigins);
     }
+	
+	
+    /**
+      * @return array
+      */
+    protected function getWildcardOrigins()
+    {
+        //We'll search for an *. in all the allowed origins
+        return preg_grep('#\*\.#', $this->allowOrigins);
+    }
 
+    /**
+      * @return bool
+     */
+    protected function hasWildcardOrigins()
+    {
+        $matchedOrigins = $this->getWildcardOrigins();
+	
+	return (count($matchedOrigins) > 0);
+    }
 
     /**
      * @return bool
