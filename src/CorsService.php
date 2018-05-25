@@ -357,11 +357,11 @@ class CorsService implements CorsServiceContract
         if ($this->isAllOriginsAllowed()) {
             return true;
         }
-	    
-    	if ($this->hasWildcardOrigins()) {
-	    if ($this->isOriginInWildcardOrigins($origin)) {
-	        return true;
-	    }
+        
+        if ($this->hasWildcardOrigins()) {
+            if ($this->isOriginInWildcardOrigins($origin)) {
+                return true;
+            }
         }
 
         return in_array($origin, $this->allowOrigins);
@@ -386,15 +386,15 @@ class CorsService implements CorsServiceContract
         $matchedOrigins = $this->getWildcardOrigins();
         $hasMatch = false;
 
-        //Lets parse the uri to extract some parts
+        // Let's parse the URI to extract some parts
         $parser = new UriParser();
         $originParsed = $parser->parse($origin);
         foreach ($matchedOrigins as $domain) {
-            //UriParser consider (rightly) *. as an invalid subdomain, so we have to replace it
+            // UriParser consider (rightly) *. as an invalid subdomain, so we have to replace it
             $wildcardDomain = str_replace('*', 'wildcard', $domain);
             $domainParsed = $parser->parse($wildcardDomain);
             if ($domainParsed['scheme'] == $originParsed['scheme']) {
-                //Same protocol, next step
+                // Same protocol, next step
                 $domainHost = str_replace('wildcard', '*', $domainParsed['host']);
                 /* 
                  * Create the final RegExp, like (.*\.)?example\.com
@@ -403,9 +403,9 @@ class CorsService implements CorsServiceContract
                  *  - www.example.com
                  *  - subdomain.example.com
                  */
-                //Escape all the dots
+                // Escape all the dots
                 $domainHostRE = str_replace('.', '\.', $domainHost);
-                //Place the RegExp
+                // Place the RegExp in the string
                 $domainHostRE = str_replace('*\.', '(.+\.)?', $domainHostRE);
 
                 if (preg_match('#'.$domainHostRE.'#', $originParsed['host']) !== 0) {
@@ -477,7 +477,7 @@ class CorsService implements CorsServiceContract
       */
     protected function getWildcardOrigins()
     {
-        //We'll search for an *. in all the allowed origins
+        // We'll search for an *. in all the allowed origins
         return preg_grep('#\*\.#', $this->allowOrigins);
     }
 
@@ -487,8 +487,8 @@ class CorsService implements CorsServiceContract
     protected function hasWildcardOrigins()
     {
         $matchedOrigins = $this->getWildcardOrigins();
-	
-	return (count($matchedOrigins) > 0);
+        
+        return (count($matchedOrigins) > 0);
     }
 
     /**
