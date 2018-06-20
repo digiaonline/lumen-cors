@@ -473,11 +473,12 @@ class CorsService implements CorsServiceContract
 	
 	
     /**
+      * Return an array of all the allowed origins that match *.
+	  *
       * @return array
       */
     protected function getWildcardOrigins()
     {
-        // We'll search for an *. in all the allowed origins
         return preg_grep('#\*\.#', $this->allowOrigins);
     }
 
