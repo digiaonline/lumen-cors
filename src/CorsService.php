@@ -489,7 +489,7 @@ class CorsService implements CorsServiceContract
     {
         $matchedOrigins = $this->getWildcardOrigins();
         
-        return (count($matchedOrigins) > 0);
+        return count($matchedOrigins) > 0;
     }
 
     /**
