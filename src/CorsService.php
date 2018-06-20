@@ -384,8 +384,7 @@ class CorsService implements CorsServiceContract
         }
 
         $matchedOrigins = $this->getWildcardOrigins();
-        $hasMatch = false;
-
+		
         // Let's parse the URI to extract some parts
         $parser = new UriParser();
         $originParsed = $parser->parse($origin);
@@ -409,12 +408,12 @@ class CorsService implements CorsServiceContract
                 $domainHostRE = str_replace('*\.', '(.+\.)?', $domainHostRE);
 
                 if (preg_match('#'.$domainHostRE.'#', $originParsed['host']) !== 0) {
-                    $hasMatch = true;
+                    return true;
                 }
             }
         }
 
-        return $hasMatch;
+        return false;
     }
 
     /**
