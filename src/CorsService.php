@@ -393,7 +393,7 @@ class CorsService implements CorsServiceContract
             // UriParser consider (rightly) *. as an invalid subdomain, so we have to replace it
             $wildcardDomain = str_replace('*', 'wildcard', $domain);
             $domainParsed = $parser->parse($wildcardDomain);
-            if ($domainParsed['scheme'] == $originParsed['scheme']) {
+            if ($domainParsed['scheme'] === $originParsed['scheme']) {
                 // Same protocol, next step
                 $domainHost = str_replace('wildcard', '*', $domainParsed['host']);
                 /* 
