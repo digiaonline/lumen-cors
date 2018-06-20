@@ -406,6 +406,8 @@ class CorsService implements CorsServiceContract
                 $domainHostRE = str_replace('.', '\.', $domainHost);
                 // Place the RegExp in the string
                 $domainHostRE = str_replace('*\.', '(.+\.)?', $domainHostRE);
+                // Adding a end $ to not match example.com.evil
+                $domainHostRE = $domainHostRE.'$';
 
                 if (preg_match('#'.$domainHostRE.'#', $originParsed['host']) !== 0) {
                     return true;
