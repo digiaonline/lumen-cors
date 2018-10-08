@@ -363,12 +363,13 @@ class CorsServiceTest extends \Codeception\Test\Unit
             'allow_origins' => ['http://foo.com'],
         ]);
 
-        $this->specify('403 response when origin is not allowed', function () {
+        $this->specify('response origin header is not set when origin is not allowed', function () {
             $this->request->headers->set('Origin', 'http://bar.com');
 
             $response = $this->service->handleRequest($this->request, $this->closure);
 
-            verify($response->getStatusCode())->equals(403);
+            verify($response->getStatusCode())->equals(200);
+            verify($response->headers->get('Access-Control-Allow-Origin'))->equals(null);
         });
     }
 

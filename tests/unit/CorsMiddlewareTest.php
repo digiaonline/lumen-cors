@@ -60,7 +60,7 @@ class CorsMiddlewareTest extends \Codeception\Test\Unit
             'allow_origins' => ['http://foo.com'],
         ]);
         $this->middleware = new CorsMiddleware($service);
-        $this->specify('Closure not called when origin is not allowed', function () {
+        $this->specify('Closure is called even if origin is not allowed', function () {
             $req = new Request();
             $req->headers->set('Origin', 'http://bar.com');
             $res = $this->middleware->handle($req, function () {
@@ -69,7 +69,7 @@ class CorsMiddlewareTest extends \Codeception\Test\Unit
                 return $res;
             });
             verify($res)->hasAttribute('headers');
-            verify($res->headers->get('X-Closure-Called'))->equals(null);
+            verify($res->headers->get('X-Closure-Called'))->equals(1);
         });
     }
 
