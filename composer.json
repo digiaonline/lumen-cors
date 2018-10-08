@@ -27,6 +27,9 @@
     "scripts": {
         "test": [
             "codecept run"
+        ],
+        "travis": [
+            "codecept run --coverage --report --coverage-xml"
         ]
     }
 }
