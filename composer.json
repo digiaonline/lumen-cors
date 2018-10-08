@@ -23,5 +23,10 @@
         "psr-4": {
             "Nord\\Lumen\\Cors\\": "src"
         }
+    },
+    "scripts": {
+        "test": [
+            "codecept run"
+        ]
     }
 }

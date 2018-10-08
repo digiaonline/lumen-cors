@@ -78,7 +78,7 @@ composer install
 Run the following command to run the test suite:
 
 ```sh
-vendor/bin/codecept run unit
+composer test
 ```
 
 ## License
