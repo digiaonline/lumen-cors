@@ -13,7 +13,7 @@
 
 ## Requirements
 
-- PHP 5.6 or newer
+- PHP 7.1 or newer
 - [Composer](http://getcomposer.org)
 - [Lumen](https://lumen.laravel.com/) 5.4 or newer
 
