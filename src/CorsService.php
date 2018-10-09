@@ -3,7 +3,6 @@
 use Closure;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Nord\Lumen\Cors\Contracts\CorsService as CorsServiceContract;
-use Nord\Lumen\Cors\Exceptions\InvalidArgument;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -175,7 +174,6 @@ class CorsService implements CorsServiceContract
     /**
      * @param Request $request
      *
-     * @throws InvalidArgument
      * @throws HttpResponseException
      */
     protected function validatePreflightRequest(Request $request)
@@ -322,18 +320,12 @@ class CorsService implements CorsServiceContract
     /**
      * Returns whether or not the origin is allowed.
      *
-     * @param mixed $origin
+     * @param string|null $origin
      *
      * @return bool
-     *
-     * @throws InvalidArgument
      */
-    protected function isOriginAllowed($origin)
+    protected function isOriginAllowed(?string $origin)
     {
-        if (!is_string($origin) || empty($origin)) {
-            throw new InvalidArgument('Origin must be non empty string.');
-        }
-
         if ($this->isAllOriginsAllowed()) {
             return true;
         }
@@ -345,18 +337,12 @@ class CorsService implements CorsServiceContract
     /**
      * Returns whether or not the method is allowed.
      *
-     * @param mixed $method
+     * @param string|null $method
      *
      * @return bool
-     *
-     * @throws InvalidArgument
      */
-    protected function isMethodAllowed($method)
+    protected function isMethodAllowed(?string $method)
     {
-        if (!is_string($method) || empty($method)) {
-            throw new InvalidArgument('Method must be a non empty string.');
-        }
-
         if ($this->isAllMethodsAllowed()) {
             return true;
         }
@@ -368,18 +354,12 @@ class CorsService implements CorsServiceContract
     /**
      * Returns whether or not the header is allowed.
      *
-     * @param mixed $header
+     * @param string|null $header
      *
      * @return bool
-     *
-     * @throws InvalidArgument
      */
-    protected function isHeaderAllowed($header)
+    protected function isHeaderAllowed(?string $header)
     {
-        if (!is_string($header) || empty($header)) {
-            throw new InvalidArgument('Header must be a non empty string.');
-        }
-
         if ($this->isAllHeadersAllowed()) {
             return true;
         }
@@ -452,33 +432,21 @@ class CorsService implements CorsServiceContract
 
 
     /**
-     * @param boolean $allowCredentials
-     *
-     * @throws InvalidArgument
+     * @param bool $allowCredentials
      */
-    protected function setAllowCredentials($allowCredentials)
+    protected function setAllowCredentials(bool $allowCredentials)
     {
-        if (!is_bool($allowCredentials)) {
-            throw new InvalidArgument('Allow credentials must be a boolean.');
-        }
-
         $this->allowCredentials = $allowCredentials;
     }
 
 
     /**
      * @param int $maxAge
-     *
-     * @throws InvalidArgument
      */
-    protected function setMaxAge($maxAge)
+    protected function setMaxAge(int $maxAge)
     {
-        if (!is_int($maxAge)) {
-            throw new InvalidArgument('Max age must be an integer.');
-        }
-
         if ($maxAge < 0) {
-            throw new InvalidArgument('Max age must be a positive number or zero.');
+            throw new \InvalidArgumentException('Max age must be a positive number or zero.');
         }
 
         $this->maxAge = $maxAge;
@@ -486,46 +454,28 @@ class CorsService implements CorsServiceContract
 
 
     /**
-     * @param Callable $originNotAllowed
-     *
-     * @throws InvalidArgument
+     * @param callable $originNotAllowed
      */
-    protected function setOriginNotAllowed($originNotAllowed)
+    protected function setOriginNotAllowed(callable $originNotAllowed)
     {
-        if (!is_callable($originNotAllowed)) {
-            throw new InvalidArgument('Origin not allowed must be a callable.');
-        }
-
         $this->originNotAllowed = $originNotAllowed;
     }
 
 
     /**
-     * @param Callable $methodNotAllowed
-     *
-     * @throws InvalidArgument
+     * @param callable $methodNotAllowed
      */
-    protected function setMethodNotAllowed($methodNotAllowed)
+    protected function setMethodNotAllowed(callable $methodNotAllowed)
     {
-        if (!is_callable($methodNotAllowed)) {
-            throw new InvalidArgument('Method not allowed must be a callable.');
-        }
-
         $this->methodNotAllowed = $methodNotAllowed;
     }
 
 
     /**
-     * @param Callable $headerNotAllowed
-     *
-     * @throws InvalidArgument
+     * @param callable $headerNotAllowed
      */
-    protected function setHeaderNotAllowed($headerNotAllowed)
+    protected function setHeaderNotAllowed(callable $headerNotAllowed)
     {
-        if (!is_callable($headerNotAllowed)) {
-            throw new InvalidArgument('Header not allowed must be a callable.');
-        }
-
         $this->headerNotAllowed = $headerNotAllowed;
     }
 }
