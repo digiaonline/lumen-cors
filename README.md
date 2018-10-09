@@ -11,8 +11,6 @@
 
 [Cross-Origin Resource Sharing](http://enable-cors.org/) (CORS) module for the [Lumen PHP framework](http://lumen.laravel.com/).
 
-**NOTE:** Branch 5.3 uses Lumen framework 5.3. Only bug-fixes 1.7.X should be tagged in the 5.3 branch.
-
 ## Requirements
 
 - PHP 5.6 or newer
@@ -42,9 +40,9 @@ Available configuration options:
 - **allow_credentials** `boolean` *Whether or not the response can be exposed when credentials are present, defaults to false*
 - **expose_headers** `array` *HTTP headers that are allowed to be exposed to the web browser, defaults to an empty array*
 - **max_age** `integer` *Indicates how long preflight request can be cached, defaults to 0*
-- **origin_not_allowed** `callable` *Creates the response if the origin is not allowed*
-- **method_not_allowed** `callable` *Creates the response if the method is not allowed*
-- **header_not_allowed** `callable` *Creates the response if the header is not allowed*
+- **origin_not_allowed** `callable` (optional) *Creates the preflight response if the origin is not allowed*
+- **method_not_allowed** `callable` (optional) *Creates the preflight response if the method is not allowed*
+- **header_not_allowed** `callable` (optional) *Creates the preflight response if the header is not allowed*
 
 ### Bootstrapping
 
@@ -78,7 +76,7 @@ composer install
 Run the following command to run the test suite:
 
 ```sh
-vendor/bin/codecept run unit
+composer test
 ```
 
 ## License

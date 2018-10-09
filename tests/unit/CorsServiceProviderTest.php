@@ -2,7 +2,6 @@
 
 namespace Nord\Lumen\Cors\Tests;
 
-use Nord\Lumen\Cors\CorsFacade;
 use Nord\Lumen\Cors\CorsService;
 use Nord\Lumen\Cors\CorsServiceProvider;
 
@@ -21,7 +20,6 @@ class CorsServiceProviderTest extends \Codeception\Test\Unit
     protected function setup()
     {
         $this->app = new MockApplication();
-        $this->app->withFacades();
         $this->app->register(CorsServiceProvider::class);
     }
 
@@ -33,16 +31,6 @@ class CorsServiceProviderTest extends \Codeception\Test\Unit
         $this->specify('verify serviceProvider is registered', function () {
             $service = $this->app->make(CorsService::class);
             verify($service)->isInstanceOf(CorsService::class);
-        });
-    }
-
-    /**
-     *
-     */
-    public function testAssertFacade()
-    {
-        $this->specify('verify serviceProvider facade', function () {
-            verify(CorsFacade::getFacadeRoot())->isInstanceOf(CorsService::class);
         });
     }
 }

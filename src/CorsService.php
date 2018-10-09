@@ -2,10 +2,10 @@
 
 use Closure;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Nord\Lumen\Cors\Contracts\CorsService as CorsServiceContract;
 use Nord\Lumen\Cors\Exceptions\InvalidArgument;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Nord\Lumen\Cors\Contracts\CorsService as CorsServiceContract;
 
 class CorsService implements CorsServiceContract
 {
@@ -105,12 +105,6 @@ class CorsService implements CorsServiceContract
      */
     public function handleRequest(Request $request, Closure $next)
     {
-        try {
-            $this->validateRequest($request);
-        } catch (HttpResponseException $e) {
-            return $this->createResponse($request, $e->getResponse());
-        }
-
         return $this->createResponse($request, $next($request));
     }
 
@@ -250,21 +244,6 @@ class CorsService implements CorsServiceContract
 
 
     /**
-     * @param Request $request
-     *
-     * @throws InvalidArgument
-     */
-    protected function validateRequest(Request $request)
-    {
-        $origin = $request->headers->get('Origin');
-
-        if (!$this->isOriginAllowed($origin)) {
-            throw new HttpResponseException($this->createOriginNotAllowedResponse($request));
-        }
-    }
-
-
-    /**
      * @param Request  $request
      * @param Response $response
      *
@@ -274,7 +253,9 @@ class CorsService implements CorsServiceContract
     {
         $origin = $request->headers->get('Origin');
 
-        $response->headers->set('Access-Control-Allow-Origin', $origin);
+        if ($this->isOriginAllowed($origin)) {
+            $response->headers->set('Access-Control-Allow-Origin', $origin);
+        }
 
         $vary = $request->headers->has('Vary') ? $request->headers->get('Vary') . ', Origin' : 'Origin';
         $response->headers->set('Vary', $vary);

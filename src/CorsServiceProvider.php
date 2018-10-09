@@ -20,7 +20,6 @@ class CorsServiceProvider extends ServiceProvider
         }
 
         $this->registerBindings();
-        $this->registerFacades();
     }
 
 
@@ -35,17 +34,6 @@ class CorsServiceProvider extends ServiceProvider
         });
 
         $this->app->alias(CorsService::class, CorsServiceContract::class);
-    }
-
-
-    /**
-     * Registers facades.
-     */
-    protected function registerFacades()
-    {
-        if (!class_exists('Cors')) {
-            class_alias(CorsFacade::class, 'Cors');
-        }
     }
 
     /**
