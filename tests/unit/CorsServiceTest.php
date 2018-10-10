@@ -217,64 +217,6 @@ class CorsServiceTest extends \Codeception\Test\Unit
 
             verify($response->headers->get('Access-Control-Max-Age'))->equals(3600);
         });
-
-        $this->service = new CorsService([
-            'allow_origins'      => ['http://foo.com'],
-            'origin_not_allowed' => function () {
-                return new Response('INVALID ORIGIN', 403);
-            },
-        ]);
-
-        $this->request = new Request;
-
-        $this->specify('response origin_not_allowed header is set', function () {
-            $this->request->headers->set('Origin', 'http://bar.com');
-
-            $response = $this->service->handlePreflightRequest($this->request);
-
-            verify($response->getStatusCode())->equals(403);
-            verify($response->getContent())->equals('INVALID ORIGIN');
-        });
-
-        $this->service = new CorsService([
-            'allow_origins'      => ['*'],
-            'allow_methods'      => ['GET'],
-            'method_not_allowed' => function () {
-                return new Response('INVALID METHOD', 403);
-            },
-        ]);
-
-        $this->request = new Request;
-
-        $this->specify('response method_not_allowed header is set', function () {
-            $this->request->headers->set('Origin', 'http://foo.com');
-            $this->request->headers->set('Access-Control-Request-Method', 'POST');
-
-            $response = $this->service->handlePreflightRequest($this->request);
-
-            verify($response->getStatusCode())->equals(403);
-            verify($response->getContent())->equals('INVALID METHOD');
-        });
-
-        $this->service = new CorsService([
-            'allow_origins'      => ['*'],
-            'allow_headers'      => ['accept'],
-            'header_not_allowed' => function () {
-                return new Response('INVALID HEADER', 403);
-            },
-        ]);
-
-        $this->request = new Request;
-
-        $this->specify('response header_not_allowed header is set', function () {
-            $this->request->headers->set('Origin', 'http://foo.com');
-            $this->request->headers->set('Access-Control-Request-Headers', 'accept, authorization');
-
-            $response = $this->service->handlePreflightRequest($this->request);
-
-            verify($response->getStatusCode())->equals(403);
-            verify($response->getContent())->equals('INVALID HEADER');
-        });
     }
 
     public function testHandleRequest()

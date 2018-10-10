@@ -40,9 +40,6 @@ Available configuration options:
 - **allow_credentials** `boolean` *Whether or not the response can be exposed when credentials are present, defaults to false*
 - **expose_headers** `array` *HTTP headers that are allowed to be exposed to the web browser, defaults to an empty array*
 - **max_age** `integer` *Indicates how long preflight request can be cached, defaults to 0*
-- **origin_not_allowed** `callable` (optional) *Creates the preflight response if the origin is not allowed*
-- **method_not_allowed** `callable` (optional) *Creates the preflight response if the method is not allowed*
-- **header_not_allowed** `callable` (optional) *Creates the preflight response if the header is not allowed*
 
 ### Bootstrapping
 
