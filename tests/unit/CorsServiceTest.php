@@ -87,7 +87,7 @@ class CorsServiceTest extends \Codeception\Test\Unit
             $this->request->headers->set('Access-Control-Request-Method', 'POST');
             $this->request->headers->set('Access-Control-Request-Headers', 'accept, authorization, content-type');
 
-            $response = $this->service->handlePreflightRequest($this->request);
+            $this->service->handlePreflightRequest($this->request);
         });
 
         $this->service = new CorsService([
