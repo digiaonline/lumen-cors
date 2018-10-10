@@ -113,7 +113,7 @@ class CorsService implements CorsServiceContract
     protected function configure(array $config)
     {
         if (isset($config['allow_origins'])) {
-            $this->setAllowOrigins($config['allow_origins']);
+            $this->allowOrigins = $config['allow_origins'];
         }
 
         if (isset($config['allow_headers'])) {
@@ -125,7 +125,7 @@ class CorsService implements CorsServiceContract
         }
 
         if (isset($config['allow_credentials'])) {
-            $this->setAllowCredentials($config['allow_credentials']);
+            $this->allowCredentials = $config['allow_credentials'];
         }
 
         if (isset($config['expose_headers'])) {
@@ -316,15 +316,6 @@ class CorsService implements CorsServiceContract
 
 
     /**
-     * @param array $allowOrigins
-     */
-    protected function setAllowOrigins(array $allowOrigins)
-    {
-        $this->allowOrigins = $allowOrigins;
-    }
-
-
-    /**
      * @param array $allowMethods
      */
     protected function setAllowMethods(array $allowMethods)
@@ -348,15 +339,6 @@ class CorsService implements CorsServiceContract
     protected function setExposeHeaders(array $exposeHeaders)
     {
         $this->exposeHeaders = array_map('strtolower', $exposeHeaders);
-    }
-
-
-    /**
-     * @param bool $allowCredentials
-     */
-    protected function setAllowCredentials(bool $allowCredentials)
-    {
-        $this->allowCredentials = $allowCredentials;
     }
 
 
