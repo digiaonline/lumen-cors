@@ -54,21 +54,21 @@ class CorsService implements CorsServiceContract
     /**
      * Creates the response if the origin is not allowed.
      *
-     * @var Callable
+     * @var callable|null
      */
     private $originNotAllowed;
 
     /**
      * Creates the response if the method is not allowed.
      *
-     * @var Callable
+     * @var callable|null
      */
     private $methodNotAllowed;
 
     /**
      * Creates the response if the header is not allowed.
      *
-     * @var Callable
+     * @var callable|null
      */
     private $headerNotAllowed;
 
@@ -222,7 +222,7 @@ class CorsService implements CorsServiceContract
         }
 
         if ($this->maxAge) {
-            $response->headers->set('Access-Control-Max-Age', $this->maxAge);
+            $response->headers->set('Access-Control-Max-Age', (string)$this->maxAge);
         }
 
         $allowMethods = $this->isAllMethodsAllowed()
