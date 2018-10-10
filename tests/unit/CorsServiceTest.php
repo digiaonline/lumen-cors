@@ -4,7 +4,6 @@ namespace Nord\Lumen\Cors\Tests;
 
 use Closure;
 use Nord\Lumen\Cors\CorsService;
-use Illuminate\Http\Exception\HttpResponseException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -39,29 +38,9 @@ class CorsServiceTest extends \Codeception\Test\Unit
 
     public function testServiceConfig()
     {
-        $this->specify('service config allow_credentials is not boolean', function () {
-            new CorsService(['allow_credentials' => 'invalid']);
-        }, ['throws' => 'Nord\Lumen\Cors\Exceptions\InvalidArgument']);
-
-        $this->specify('service config max_age is not integer', function () {
-            new CorsService(['max_age' => 'invalid']);
-        }, ['throws' => 'Nord\Lumen\Cors\Exceptions\InvalidArgument']);
-
         $this->specify('service config max_age is less than zero', function () {
             new CorsService(['max_age' => -1]);
-        }, ['throws' => 'Nord\Lumen\Cors\Exceptions\InvalidArgument']);
-
-        $this->specify('service config origin_not_allowed must be callable', function () {
-            new CorsService(['origin_not_allowed' => 'INVALID ORIGIN']);
-        }, ['throws' => 'Nord\Lumen\Cors\Exceptions\InvalidArgument']);
-
-        $this->specify('service config method_not_allowed must be callable', function () {
-            new CorsService(['method_not_allowed' => 'INVALID METHOD']);
-        }, ['throws' => 'Nord\Lumen\Cors\Exceptions\InvalidArgument']);
-
-        $this->specify('service config header_not_allowed must be callable', function () {
-            new CorsService(['header_not_allowed' => 'INVALID HEADER']);
-        }, ['throws' => 'Nord\Lumen\Cors\Exceptions\InvalidArgument']);
+        }, ['throws' => 'InvalidArgumentException']);
     }
 
     public function testHandlePreflightRequest()
@@ -135,9 +114,11 @@ class CorsServiceTest extends \Codeception\Test\Unit
 
         $this->request = new Request;
 
-        $this->specify('InvalidArgument exception when origin is not set', function () {
-            $this->service->handlePreflightRequest($this->request);
-        }, ['throws' => 'Nord\Lumen\Cors\Exceptions\InvalidArgument']);
+        $this->specify('403 response when origin is not set', function () {
+            $response = $this->service->handlePreflightRequest($this->request);
+            
+            verify($response->getStatusCode())->equals(403);
+        });
 
         $this->service = new CorsService([
             'allow_origins' => ['*'],
@@ -146,12 +127,14 @@ class CorsServiceTest extends \Codeception\Test\Unit
 
         $this->request = new Request;
 
-        $this->specify('InvalidArgument exception when header is not set', function () {
+        $this->specify('403 response exception when header is not set', function () {
             $this->request->headers->set('Origin', 'http://foo.com');
             $this->request->headers->set('Access-Control-Request-Headers', 'accept, ');
 
-            $this->service->handlePreflightRequest($this->request);
-        }, ['throws' => 'Nord\Lumen\Cors\Exceptions\InvalidArgument']);
+            $response = $this->service->handlePreflightRequest($this->request);
+
+            verify($response->getStatusCode())->equals(403);
+        });
 
         $this->service = new CorsService([
             'allow_origins' => ['http://foo.com'],
