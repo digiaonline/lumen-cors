@@ -2,4 +2,4 @@ preset: psr2
 
 finder:
   exclude:
-    - "tests/_support/_generated"
+    - "tests/_support"
