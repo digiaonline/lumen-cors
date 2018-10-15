@@ -20,6 +20,13 @@ NOTE: Always keep an Unreleased version at the top of this CHANGELOG for easy up
 ### Security
 - To invite users to upgrade in case of vulnerabilities.
 
+## [3.0.0] - 2018-10-15
+### Changed
+- PHP 7.1 is now required
+- Exceptions are no longer thrown if a non pre-flight request comes from a non-allowed origin
+### Removed
+- Support for custom callbacks for non-allowed pre-flight requests have been removed
+
 ## [2.1.0] - 2017-02-27
 ### Changed
 - Do not call closure in CorsMiddleware::handle() before CORS validation in CorsService::handleRequest().
