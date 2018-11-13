@@ -14,18 +14,18 @@ interface CorsService
      *
      * @return Response
      */
-    public function handlePreflightRequest(Request $request);
+    public function handlePreflightRequest(Request $request): Response;
 
 
     /**
      * Handles the actual request.
      *
      * @param Request  $request
-     * @param Closure $next
+     * @param Response $response
      *
      * @return Response
      */
-    public function handleRequest(Request $request, Closure $next);
+    public function handleRequest(Request $request, Response $response): Response;
 
 
     /**

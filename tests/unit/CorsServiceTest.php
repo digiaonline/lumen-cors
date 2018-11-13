@@ -225,10 +225,6 @@ class CorsServiceTest extends \Codeception\Test\Unit
 
         $this->response = new Response;
 
-        $this->closure = function () {
-            return new Response;
-        };
-
         $this->service = new CorsService([
             'allow_origins' => ['*'],
         ]);
@@ -236,7 +232,7 @@ class CorsServiceTest extends \Codeception\Test\Unit
         $this->specify('response origin header is set', function () {
             $this->request->headers->set('Origin', 'http://foo.com');
 
-            $response = $this->service->handleRequest($this->request, $this->closure);
+            $response = $this->service->handleRequest($this->request, new Response());
 
             verify($response->headers->get('Access-Control-Allow-Origin'))->equals('http://foo.com');
         });
@@ -249,7 +245,7 @@ class CorsServiceTest extends \Codeception\Test\Unit
             $this->request->headers->set('Origin', 'http://foo.com');
             $this->request->headers->set('Vary', 'Accept-Encoding');
 
-            $response = $this->service->handleRequest($this->request, $this->closure);
+            $response = $this->service->handleRequest($this->request, new Response());
 
             verify($response->headers->get('Vary'))->equals('Accept-Encoding, Origin');
         });
@@ -264,7 +260,7 @@ class CorsServiceTest extends \Codeception\Test\Unit
         $this->specify('response credentials header is set', function () {
             $this->request->headers->set('Origin', 'http://foo.com');
 
-            $response = $this->service->handleRequest($this->request, $this->closure);
+            $response = $this->service->handleRequest($this->request, new Response());
 
             verify($response->headers->get('Access-Control-Allow-Credentials'))->equals('true');
         });
@@ -279,7 +275,7 @@ class CorsServiceTest extends \Codeception\Test\Unit
         $this->specify('response expose headers header is set', function () {
             $this->request->headers->set('Origin', 'http://foo.com');
 
-            $response = $this->service->handleRequest($this->request, $this->closure);
+            $response = $this->service->handleRequest($this->request, new Response());
 
             verify($response->headers->get('Access-Control-Expose-Headers'))->equals('accept, authorization, content-type');
         });
@@ -291,7 +287,7 @@ class CorsServiceTest extends \Codeception\Test\Unit
         $this->specify('response origin header is not set when origin is not allowed', function () {
             $this->request->headers->set('Origin', 'http://bar.com');
 
-            $response = $this->service->handleRequest($this->request, $this->closure);
+            $response = $this->service->handleRequest($this->request, new Response());
 
             verify($response->getStatusCode())->equals(200);
             verify($response->headers->get('Access-Control-Allow-Origin'))->equals(null);

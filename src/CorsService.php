@@ -88,7 +88,7 @@ class CorsService implements CorsServiceContract
     /**
      * @inheritdoc
      */
-    public function handlePreflightRequest(Request $request)
+    public function handlePreflightRequest(Request $request): Response
     {
         try {
             $this->validatePreflightRequest($request);
@@ -103,9 +103,9 @@ class CorsService implements CorsServiceContract
     /**
      * @inheritdoc
      */
-    public function handleRequest(Request $request, Closure $next)
+    public function handleRequest(Request $request, Response $response): Response
     {
-        return $this->createResponse($request, $next($request));
+        return $this->createResponse($request, $response);
     }
 
 
