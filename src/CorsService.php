@@ -127,10 +127,13 @@ class CorsService implements CorsServiceContract
         // Do not set any headers if the origin is not allowed
         if ($this->isOriginAllowed($request->headers->get('Origin'))) {
             $response = $this->setAccessControlAllowOriginHeader($request, $response);
-        }
 
-        $vary = $request->headers->has('Vary') ? $request->headers->get('Vary') . ', Origin' : 'Origin';
-        $response->headers->set('Vary', $vary);
+            // Set Vary unless all origins are allowed
+            if (!$this->isAllOriginsAllowed()) {
+                $vary = $request->headers->has('Vary') ? $request->headers->get('Vary') . ', Origin' : 'Origin';
+                $response->headers->set('Vary', $vary);
+            }
+        }
 
         if ($this->allowCredentials) {
             $response->headers->set('Access-Control-Allow-Credentials', 'true');

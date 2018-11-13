@@ -168,6 +168,20 @@ class CorsServiceTest extends \Codeception\Test\Unit
             'allow_origins' => ['*'],
         ]);
 
+        $this->specify('response vary header is not set when all origins are allowed', function () {
+            $this->request->headers->set('Origin', 'http://foo.com');
+
+            $response = new Response();
+            $response->headers->set('Vary', 'Accept-Encoding');
+            $response = $this->service->handleRequest($this->request, $response);
+
+            verify($response->headers->get('Vary'))->equals('Accept-Encoding');
+        });
+
+        $this->service = new CorsService([
+            'allow_origins' => ['http://foo.com'],
+        ]);
+
         $this->specify('response vary header is set', function () {
             $this->request->headers->set('Origin', 'http://foo.com');
             $this->request->headers->set('Vary', 'Accept-Encoding');
