@@ -59,7 +59,29 @@ class CorsService implements CorsServiceContract
      */
     public function __construct(array $config = [])
     {
-        $this->configure($config);
+        if (isset($config['allow_origins'])) {
+            $this->allowOrigins = $config['allow_origins'];
+        }
+
+        if (isset($config['allow_headers'])) {
+            $this->setAllowHeaders($config['allow_headers']);
+        }
+
+        if (isset($config['allow_methods'])) {
+            $this->setAllowMethods($config['allow_methods']);
+        }
+
+        if (isset($config['allow_credentials'])) {
+            $this->allowCredentials = $config['allow_credentials'];
+        }
+
+        if (isset($config['expose_headers'])) {
+            $this->setExposeHeaders($config['expose_headers']);
+        }
+
+        if (isset($config['max_age'])) {
+            $this->setMaxAge($config['max_age']);
+        }
     }
 
 
@@ -102,39 +124,6 @@ class CorsService implements CorsServiceContract
     public function isPreflightRequest(Request $request)
     {
         return $this->isCorsRequest($request) && $request->isMethod('OPTIONS') && $request->headers->has('Access-Control-Request-Method');
-    }
-
-
-    /**
-     * Configures the service.
-     *
-     * @param array $config
-     */
-    protected function configure(array $config)
-    {
-        if (isset($config['allow_origins'])) {
-            $this->allowOrigins = $config['allow_origins'];
-        }
-
-        if (isset($config['allow_headers'])) {
-            $this->setAllowHeaders($config['allow_headers']);
-        }
-
-        if (isset($config['allow_methods'])) {
-            $this->setAllowMethods($config['allow_methods']);
-        }
-
-        if (isset($config['allow_credentials'])) {
-            $this->allowCredentials = $config['allow_credentials'];
-        }
-
-        if (isset($config['expose_headers'])) {
-            $this->setExposeHeaders($config['expose_headers']);
-        }
-
-        if (isset($config['max_age'])) {
-            $this->setMaxAge($config['max_age']);
-        }
     }
 
 
