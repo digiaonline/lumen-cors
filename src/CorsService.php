@@ -89,31 +89,31 @@ class CorsService implements CorsServiceContract
     public function handlePreflightRequest(Request $request): Response
     {
         $response = new Response();
-        
+
         // Do not set any headers if the origin is not allowed
         if ($this->isOriginAllowed($request->headers->get('Origin'))) {
             $response = $this->setAccessControlAllowOriginHeader($request, $response);
+
+            if ($this->allowCredentials) {
+                $response->headers->set('Access-Control-Allow-Credentials', 'true');
+            }
+
+            if ($this->maxAge) {
+                $response->headers->set('Access-Control-Max-Age', (string)$this->maxAge);
+            }
+
+            $allowMethods = $this->isAllMethodsAllowed()
+                ? strtoupper($request->headers->get('Access-Control-Request-Method'))
+                : implode(', ', $this->allowMethods);
+
+            $response->headers->set('Access-Control-Allow-Methods', $allowMethods);
+
+            $allowHeaders = $this->isAllHeadersAllowed()
+                ? strtolower($request->headers->get('Access-Control-Request-Headers'))
+                : implode(', ', $this->allowHeaders);
+
+            $response->headers->set('Access-Control-Allow-Headers', $allowHeaders);
         }
-
-        if ($this->allowCredentials) {
-            $response->headers->set('Access-Control-Allow-Credentials', 'true');
-        }
-
-        if ($this->maxAge) {
-            $response->headers->set('Access-Control-Max-Age', (string)$this->maxAge);
-        }
-
-        $allowMethods = $this->isAllMethodsAllowed()
-            ? strtoupper($request->headers->get('Access-Control-Request-Method'))
-            : implode(', ', $this->allowMethods);
-
-        $response->headers->set('Access-Control-Allow-Methods', $allowMethods);
-
-        $allowHeaders = $this->isAllHeadersAllowed()
-            ? strtolower($request->headers->get('Access-Control-Request-Headers'))
-            : implode(', ', $this->allowHeaders);
-
-        $response->headers->set('Access-Control-Allow-Headers', $allowHeaders);
 
         return $response;
     }
@@ -133,14 +133,14 @@ class CorsService implements CorsServiceContract
                 $vary = $request->headers->has('Vary') ? $request->headers->get('Vary') . ', Origin' : 'Origin';
                 $response->headers->set('Vary', $vary);
             }
-        }
 
-        if ($this->allowCredentials) {
-            $response->headers->set('Access-Control-Allow-Credentials', 'true');
-        }
+            if ($this->allowCredentials) {
+                $response->headers->set('Access-Control-Allow-Credentials', 'true');
+            }
 
-        if (!empty($this->exposeHeaders)) {
-            $response->headers->set('Access-Control-Expose-Headers', implode(', ', $this->exposeHeaders));
+            if (!empty($this->exposeHeaders)) {
+                $response->headers->set('Access-Control-Expose-Headers', implode(', ', $this->exposeHeaders));
+            }
         }
 
         return $response;
