@@ -1,7 +1,5 @@
 <?php namespace Nord\Lumen\Cors;
 
-use Closure;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Nord\Lumen\Cors\Contracts\CorsService as CorsServiceContract;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,83 +88,6 @@ class CorsService implements CorsServiceContract
      */
     public function handlePreflightRequest(Request $request): Response
     {
-        try {
-            $this->validatePreflightRequest($request);
-        } catch (HttpResponseException $e) {
-            return $this->createResponse($request, $e->getResponse());
-        }
-
-        return $this->createPreflightResponse($request);
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function handleRequest(Request $request, Response $response): Response
-    {
-        return $this->createResponse($request, $response);
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function isCorsRequest(Request $request)
-    {
-        return $request->headers->has('Origin');
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function isPreflightRequest(Request $request)
-    {
-        return $this->isCorsRequest($request) && $request->isMethod('OPTIONS') && $request->headers->has('Access-Control-Request-Method');
-    }
-
-
-    /**
-     * @param Request $request
-     *
-     * @throws HttpResponseException
-     */
-    protected function validatePreflightRequest(Request $request)
-    {
-        $origin = $request->headers->get('Origin');
-
-        if (!$this->isOriginAllowed($origin)) {
-            throw new HttpResponseException(new Response('Origin not allowed', 403));
-        }
-
-        $method = $request->headers->get('Access-Control-Request-Method');
-
-        if ($method && !$this->isMethodAllowed($method)) {
-            throw new HttpResponseException(new Response('Method not allowed', 405));
-        }
-
-        if (!$this->isAllHeadersAllowed()) {
-            $headers = str_replace(' ', '', $request->headers->get('Access-Control-Request-Headers'));
-
-            foreach (explode(',', $headers) as $header) {
-                if (!$this->isHeaderAllowed($header)) {
-                    throw new HttpResponseException(new Response('Header not allowed', 403));
-                }
-            }
-        }
-    }
-
-
-    /**
-     * Creates a preflight response.
-     *
-     * @param Request $request
-     *
-     * @return Response
-     */
-    protected function createPreflightResponse(Request $request)
-    {
         $response = new Response();
 
         $response->headers->set('Access-Control-Allow-Origin', $request->headers->get('Origin'));
@@ -196,12 +117,9 @@ class CorsService implements CorsServiceContract
 
 
     /**
-     * @param Request  $request
-     * @param Response $response
-     *
-     * @return Response
+     * @inheritdoc
      */
-    protected function createResponse(Request $request, Response $response)
+    public function handleRequest(Request $request, Response $response): Response
     {
         $origin = $request->headers->get('Origin');
 
@@ -221,6 +139,24 @@ class CorsService implements CorsServiceContract
         }
 
         return $response;
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function isCorsRequest(Request $request)
+    {
+        return $request->headers->has('Origin');
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function isPreflightRequest(Request $request)
+    {
+        return $this->isCorsRequest($request) && $request->isMethod('OPTIONS') && $request->headers->has('Access-Control-Request-Method');
     }
 
 
