@@ -5,6 +5,5 @@ parameters:
 	ignoreErrors:
 		# Ignore Laravel/Lumen incompatibilites
 		- '#Function config_path not found#'
-		- '#Call to method configure\(\) on an unknown class#'
 		- '#Call to method bind\(\) on an unknown class#'
 		- '#Call to method alias\(\) on an unknown class#'
