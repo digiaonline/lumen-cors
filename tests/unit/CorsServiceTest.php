@@ -161,7 +161,7 @@ class CorsServiceTest extends \Codeception\Test\Unit
 
             $response = $this->service->handleRequest($this->request, new Response());
 
-            verify($response->headers->get('Access-Control-Allow-Origin'))->equals('http://foo.com');
+            verify($response->headers->get('Access-Control-Allow-Origin'))->equals('*');
         });
 
         $this->service = new CorsService([
@@ -208,7 +208,7 @@ class CorsServiceTest extends \Codeception\Test\Unit
         });
 
         $this->service = new CorsService([
-            'allow_origins' => ['http://foo.com'],
+            'allow_origins' => ['http://foo.com', 'http://notbar.com'],
         ]);
 
         $this->specify('response origin header is not set when origin is not allowed', function () {

@@ -89,8 +89,11 @@ class CorsService implements CorsServiceContract
     public function handlePreflightRequest(Request $request): Response
     {
         $response = new Response();
-
-        $response->headers->set('Access-Control-Allow-Origin', $request->headers->get('Origin'));
+        
+        // Do not set any headers if the origin is not allowed
+        if ($this->isOriginAllowed($request->headers->get('Origin'))) {
+            $response = $this->setAccessControlAllowOriginHeader($request, $response);
+        }
 
         if ($this->allowCredentials) {
             $response->headers->set('Access-Control-Allow-Credentials', 'true');
@@ -121,10 +124,9 @@ class CorsService implements CorsServiceContract
      */
     public function handleRequest(Request $request, Response $response): Response
     {
-        $origin = $request->headers->get('Origin');
-
-        if ($this->isOriginAllowed($origin)) {
-            $response->headers->set('Access-Control-Allow-Origin', $origin);
+        // Do not set any headers if the origin is not allowed
+        if ($this->isOriginAllowed($request->headers->get('Origin'))) {
+            $response = $this->setAccessControlAllowOriginHeader($request, $response);
         }
 
         $vary = $request->headers->has('Vary') ? $request->headers->get('Vary') . ', Origin' : 'Origin';
@@ -157,6 +159,25 @@ class CorsService implements CorsServiceContract
     public function isPreflightRequest(Request $request)
     {
         return $this->isCorsRequest($request) && $request->isMethod('OPTIONS') && $request->headers->has('Access-Control-Request-Method');
+    }
+
+    /**
+     * @param Request  $request
+     * @param Response $response
+     *
+     * @return Response
+     */
+    protected function setAccessControlAllowOriginHeader(Request $request, Response $response): Response
+    {
+        $origin = $request->headers->get('Origin');
+
+        if ($this->isAllOriginsAllowed()) {
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+        } else if ($this->isOriginAllowed($origin)) {
+            $response->headers->set('Access-Control-Allow-Origin', $origin);
+        }
+
+        return $response;
     }
 
 
