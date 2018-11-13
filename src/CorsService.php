@@ -176,7 +176,7 @@ class CorsService implements CorsServiceContract
 
         if ($this->isAllOriginsAllowed()) {
             $response->headers->set('Access-Control-Allow-Origin', '*');
-        } else if ($this->isOriginAllowed($origin)) {
+        } elseif ($this->isOriginAllowed($origin)) {
             $response->headers->set('Access-Control-Allow-Origin', $origin);
         }
 
