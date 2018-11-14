@@ -1,24 +1,11 @@
 # Change Log
-All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/) 
-and this project adheres to [Semantic Versioning](http://semver.org/).
+The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
-NOTE: Always keep an Unreleased version at the top of this CHANGELOG for easy updating.
-
-## [Unreleased] - YYYY-MM-DD
-### Added
-- For new features.
+## [3.1.0] - 2018-11-14
 ### Changed
-- For changes in existing functionality.
-### Deprecated
-- For once-stable features removed in upcoming releases.
-### Removed
-- For deprecated features removed in this release.
-### Fixed
-- For any bug fixes.
-### Security
-- To invite users to upgrade in case of vulnerabilities.
+- Exceptions are no longer thrown if the pre-flight request is considered "invalid". All requests will now go through 
+and this library only adds headers to responses where appropriate.
 
 ## [3.0.0] - 2018-10-15
 ### Changed
