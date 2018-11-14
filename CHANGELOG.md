@@ -1,5 +1,7 @@
 # Change Log
 
+The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
+
 ## [3.1.0] - 2018-11-14
 ### Changed
 - Exceptions are no longer thrown if the pre-flight request is considered "invalid". All requests will now go through 
