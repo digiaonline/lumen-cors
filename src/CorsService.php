@@ -1,7 +1,5 @@
 <?php namespace Nord\Lumen\Cors;
 
-use Closure;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Nord\Lumen\Cors\Contracts\CorsService as CorsServiceContract;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,59 +57,6 @@ class CorsService implements CorsServiceContract
      */
     public function __construct(array $config = [])
     {
-        $this->configure($config);
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function handlePreflightRequest(Request $request)
-    {
-        try {
-            $this->validatePreflightRequest($request);
-        } catch (HttpResponseException $e) {
-            return $this->createResponse($request, $e->getResponse());
-        }
-
-        return $this->createPreflightResponse($request);
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function handleRequest(Request $request, Closure $next)
-    {
-        return $this->createResponse($request, $next($request));
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function isCorsRequest(Request $request)
-    {
-        return $request->headers->has('Origin');
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function isPreflightRequest(Request $request)
-    {
-        return $this->isCorsRequest($request) && $request->isMethod('OPTIONS') && $request->headers->has('Access-Control-Request-Method');
-    }
-
-
-    /**
-     * Configures the service.
-     *
-     * @param array $config
-     */
-    protected function configure(array $config)
-    {
         if (isset($config['allow_origins'])) {
             $this->allowOrigins = $config['allow_origins'];
         }
@@ -139,72 +84,85 @@ class CorsService implements CorsServiceContract
 
 
     /**
-     * @param Request $request
-     *
-     * @throws HttpResponseException
+     * @inheritdoc
      */
-    protected function validatePreflightRequest(Request $request)
-    {
-        $origin = $request->headers->get('Origin');
-
-        if (!$this->isOriginAllowed($origin)) {
-            throw new HttpResponseException(new Response('Origin not allowed', 403));
-        }
-
-        $method = $request->headers->get('Access-Control-Request-Method');
-
-        if ($method && !$this->isMethodAllowed($method)) {
-            throw new HttpResponseException(new Response('Method not allowed', 405));
-        }
-
-        if (!$this->isAllHeadersAllowed()) {
-            $headers = str_replace(' ', '', $request->headers->get('Access-Control-Request-Headers'));
-
-            foreach (explode(',', $headers) as $header) {
-                if (!$this->isHeaderAllowed($header)) {
-                    throw new HttpResponseException(new Response('Header not allowed', 403));
-                }
-            }
-        }
-    }
-
-
-    /**
-     * Creates a preflight response.
-     *
-     * @param Request $request
-     *
-     * @return Response
-     */
-    protected function createPreflightResponse(Request $request)
+    public function handlePreflightRequest(Request $request): Response
     {
         $response = new Response();
 
-        $response->headers->set('Access-Control-Allow-Origin', $request->headers->get('Origin'));
+        // Do not set any headers if the origin is not allowed
+        if ($this->isOriginAllowed($request->headers->get('Origin'))) {
+            $response = $this->setAccessControlAllowOriginHeader($request, $response);
 
-        if ($this->allowCredentials) {
-            $response->headers->set('Access-Control-Allow-Credentials', 'true');
+            if ($this->allowCredentials) {
+                $response->headers->set('Access-Control-Allow-Credentials', 'true');
+            }
+
+            if ($this->maxAge) {
+                $response->headers->set('Access-Control-Max-Age', (string)$this->maxAge);
+            }
+
+            $allowMethods = $this->isAllMethodsAllowed()
+                ? strtoupper($request->headers->get('Access-Control-Request-Method'))
+                : implode(', ', $this->allowMethods);
+
+            $response->headers->set('Access-Control-Allow-Methods', $allowMethods);
+
+            $allowHeaders = $this->isAllHeadersAllowed()
+                ? strtolower($request->headers->get('Access-Control-Request-Headers'))
+                : implode(', ', $this->allowHeaders);
+
+            $response->headers->set('Access-Control-Allow-Headers', $allowHeaders);
         }
-
-        if ($this->maxAge) {
-            $response->headers->set('Access-Control-Max-Age', (string)$this->maxAge);
-        }
-
-        $allowMethods = $this->isAllMethodsAllowed()
-            ? strtoupper($request->headers->get('Access-Control-Request-Method'))
-            : implode(', ', $this->allowMethods);
-
-        $response->headers->set('Access-Control-Allow-Methods', $allowMethods);
-
-        $allowHeaders = $this->isAllHeadersAllowed()
-            ? strtolower($request->headers->get('Access-Control-Request-Headers'))
-            : implode(', ', $this->allowHeaders);
-
-        $response->headers->set('Access-Control-Allow-Headers', $allowHeaders);
 
         return $response;
     }
 
+
+    /**
+     * @inheritdoc
+     */
+    public function handleRequest(Request $request, Response $response): Response
+    {
+        // Do not set any headers if the origin is not allowed
+        if ($this->isOriginAllowed($request->headers->get('Origin'))) {
+            $response = $this->setAccessControlAllowOriginHeader($request, $response);
+
+            // Set Vary unless all origins are allowed
+            if (!$this->isAllOriginsAllowed()) {
+                $vary = $request->headers->has('Vary') ? $request->headers->get('Vary') . ', Origin' : 'Origin';
+                $response->headers->set('Vary', $vary);
+            }
+
+            if ($this->allowCredentials) {
+                $response->headers->set('Access-Control-Allow-Credentials', 'true');
+            }
+
+            if (!empty($this->exposeHeaders)) {
+                $response->headers->set('Access-Control-Expose-Headers', implode(', ', $this->exposeHeaders));
+            }
+        }
+
+        return $response;
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function isCorsRequest(Request $request)
+    {
+        return $request->headers->has('Origin');
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function isPreflightRequest(Request $request)
+    {
+        return $this->isCorsRequest($request) && $request->isMethod('OPTIONS') && $request->headers->has('Access-Control-Request-Method');
+    }
 
     /**
      * @param Request  $request
@@ -212,23 +170,14 @@ class CorsService implements CorsServiceContract
      *
      * @return Response
      */
-    protected function createResponse(Request $request, Response $response)
+    protected function setAccessControlAllowOriginHeader(Request $request, Response $response): Response
     {
         $origin = $request->headers->get('Origin');
 
-        if ($this->isOriginAllowed($origin)) {
+        if ($this->isAllOriginsAllowed()) {
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+        } elseif ($this->isOriginAllowed($origin)) {
             $response->headers->set('Access-Control-Allow-Origin', $origin);
-        }
-
-        $vary = $request->headers->has('Vary') ? $request->headers->get('Vary') . ', Origin' : 'Origin';
-        $response->headers->set('Vary', $vary);
-
-        if ($this->allowCredentials) {
-            $response->headers->set('Access-Control-Allow-Credentials', 'true');
-        }
-
-        if (!empty($this->exposeHeaders)) {
-            $response->headers->set('Access-Control-Expose-Headers', implode(', ', $this->exposeHeaders));
         }
 
         return $response;

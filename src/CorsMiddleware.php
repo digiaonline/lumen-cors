@@ -42,6 +42,6 @@ class CorsMiddleware
             return $this->service->handlePreflightRequest($request);
         }
 
-        return $this->service->handleRequest($request, $next);
+        return $this->service->handleRequest($request, $next($request));
     }
 }
