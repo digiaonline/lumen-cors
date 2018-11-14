@@ -1,5 +1,10 @@
 # Change Log
 
+## [3.1.0] - 2018-11-14
+### Changed
+- Exceptions are no longer thrown if the pre-flight request is considered "invalid". All requests will now go through 
+and this library only adds headers to responses where appropriate.
+
 ## [3.0.0] - 2018-10-15
 ### Changed
 - PHP 7.1 is now required
