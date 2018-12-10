@@ -58,6 +58,14 @@ $app->middleware([
 
 The module now automatically handles all CORS requests.
 
+## Customizing behavior
+
+While the service can be configured somewhat using `config/cors.php`, some more exotic things such as regular 
+expressions for allowed origins cannot. If you need to, you can provide this custom functionality yourself:
+
+1. Extend `CorsService` and override e.g. `isOriginAllowed()`
+2. Extend `CorsServiceProvider` and override `registerBindings()`, then register your own service class instead
+
 ## Contributing
 
 Please read the [guidelines](.github/CONTRIBUTING.md).
