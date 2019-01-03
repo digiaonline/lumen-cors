@@ -303,7 +303,7 @@ class CorsServiceTest extends \Codeception\Test\Unit
             'allow_origins' => ['http://*.foo.com', 'http://notbar.com'],
         ]);
 
-        $this->specify('response origin header is set when origin is match to a pattern', function () {
+        $this->specify('response origin header is not set when origin is not a match to a pattern', function () {
             $this->request->headers->set('Origin', 'http://bar.com');
 
             $response = $this->service->handleRequest($this->request, new Response());
