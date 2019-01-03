@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">=7.1",
-        "illuminate/support": "^5.7"
+        "illuminate/support": "^5.4"
     },
     "require-dev": {
         "laravel/lumen-framework": "^5.4",
