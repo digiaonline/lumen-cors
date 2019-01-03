@@ -197,7 +197,7 @@ class CorsService implements CorsServiceContract
             return true;
         }
 
-        return in_array($origin, $this->allowOrigins);
+        return str_is($this->allowOrigins, $origin);
     }
 
 
