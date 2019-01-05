@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.1.1] - 2019-01-05
+### Changed
+- Added basic pattern support for allowed origins
+- Document how to override the library for advanced customization
+
 ## [3.1.0] - 2018-11-14
 ### Changed
 - Exceptions are no longer thrown if the pre-flight request is considered "invalid". All requests will now go through 
