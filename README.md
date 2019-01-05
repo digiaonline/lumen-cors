@@ -34,7 +34,7 @@ For more information see the [Configuration Files](http://lumen.laravel.com/docs
 
 Available configuration options:
 
-- **allow_origins** `array` *Origins that are allowed to perform requests, defaults to an empty array*
+- **allow_origins** `array` *Origins that are allowed to perform requests, defaults to an empty array. Patterns also accepted, for example \*.foo.com*
 - **allow_methods** `array` *HTTP methods that are allowed, defaults to an empty array*
 - **allow_headers** `array` *HTTP headers that are allowed, defaults to an empty array*
 - **allow_credentials** `boolean` *Whether or not the response can be exposed when credentials are present, defaults to false*

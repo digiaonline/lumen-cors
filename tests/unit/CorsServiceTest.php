@@ -272,4 +272,44 @@ class CorsServiceTest extends \Codeception\Test\Unit
             verify($this->service->isPreflightRequest($this->request))->true();
         });
     }
+
+    public function testAllowOriginIfMatchPattern()
+    {
+        $this->request = new Request;
+
+        $this->response = new Response;
+
+        $this->service = new CorsService([
+            'allow_origins' => ['http://*.foo.com', 'http://notbar.com'],
+        ]);
+
+        $this->specify('response origin header is set when origin is match to a pattern', function () {
+            $this->request->headers->set('Origin', 'http://bar.foo.com');
+
+            $response = $this->service->handleRequest($this->request, new Response());
+
+            verify($response->getStatusCode())->equals(200);
+            verify($response->headers->get('Access-Control-Allow-Origin'))->equals('http://bar.foo.com');
+        });
+    }
+
+    public function testDenyOriginIfDoesNotMatchPattern()
+    {
+        $this->request = new Request;
+
+        $this->response = new Response;
+
+        $this->service = new CorsService([
+            'allow_origins' => ['http://*.foo.com', 'http://notbar.com'],
+        ]);
+
+        $this->specify('response origin header is not set when origin is not a match to a pattern', function () {
+            $this->request->headers->set('Origin', 'http://bar.com');
+
+            $response = $this->service->handleRequest($this->request, new Response());
+
+            verify($response->getStatusCode())->equals(200);
+            verify($response->headers->get('Access-Control-Allow-Origin'))->equals(null);
+        });
+    }
 }

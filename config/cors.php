@@ -8,6 +8,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Indicates which origins are allowed to perform requests.
+    | Patterns also accepted, for example *.foo.com
     |
     */
 
