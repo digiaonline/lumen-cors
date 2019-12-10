@@ -1,5 +1,6 @@
 <?php namespace Nord\Lumen\Cors;
 
+use Illuminate\Support\Str;
 use Nord\Lumen\Cors\Contracts\CorsService as CorsServiceContract;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -197,7 +198,7 @@ class CorsService implements CorsServiceContract
             return true;
         }
 
-        return str_is($this->allowOrigins, $origin);
+        return Str::is($this->allowOrigins, $origin);
     }
 
 
