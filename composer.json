@@ -14,7 +14,7 @@
         "illuminate/support": "^5.4 || ^6.0"
     },
     "require-dev": {
-        "laravel/lumen-framework": "^6.0",
+        "laravel/lumen-framework": "^5.4 || ^6.0",
         "codeception/assert-throws": "^1.0",
         "codeception/codeception": "^2.5",
         "codeception/specify": "^1.2",
