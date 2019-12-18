@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CorsServiceTest extends \Codeception\Test\Unit
 {
     use \Codeception\Specify;
+    use \Codeception\AssertThrows;
 
     /**
      * @var \UnitTester
@@ -38,9 +39,10 @@ class CorsServiceTest extends \Codeception\Test\Unit
 
     public function testServiceConfig()
     {
-        $this->specify('service config max_age is less than zero', function () {
+        // service config max_age is less than zero
+        $this->assertThrows(\InvalidArgumentException::class, function () {
             new CorsService(['max_age' => -1]);
-        }, ['throws' => 'InvalidArgumentException']);
+        });
     }
 
     public function testHandlePreflightRequest()

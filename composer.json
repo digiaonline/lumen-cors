@@ -11,15 +11,16 @@
     ],
     "require": {
         "php": ">=7.1",
-        "illuminate/support": "^5.4"
+        "illuminate/support": "^5.4 || ^6.0"
     },
     "require-dev": {
-        "laravel/lumen-framework": "^5.4",
-        "codeception/codeception": "^2.2",
-        "codeception/specify": "^0.4",
-        "codeception/verify": "^0.3",
-        "php-coveralls/php-coveralls": "^2.1",
-        "phpstan/phpstan": "^0.10.3"
+        "laravel/lumen-framework": "^5.4 || ^6.0",
+        "codeception/assert-throws": "^1.0",
+        "codeception/codeception": "^2.5",
+        "codeception/specify": "^1.2",
+        "codeception/verify": "^1.2",
+        "php-coveralls/php-coveralls": "^2.2",
+        "phpstan/phpstan": "^0.12.2"
     },
     "autoload": {
         "psr-4": {
