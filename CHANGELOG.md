@@ -2,6 +2,12 @@
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.2.0] - 2019-12-18
+### Changed
+- CorsService setters are now fluent
+- Lumen 6.x is now supported
+- Run Travis CI on PHP 7.3 and 7.4 too 
+
 ## [3.1.1] - 2019-01-05
 ### Changed
 - Added basic pattern support for allowed origins
