@@ -277,7 +277,7 @@ class CorsService implements CorsServiceContract
 
     /**
      * @param array $allowHeaders
-     *                           
+     *
      * @return self
      */
     protected function setAllowHeaders(array $allowHeaders): self
@@ -290,7 +290,7 @@ class CorsService implements CorsServiceContract
 
     /**
      * @param array $exposeHeaders
-     *                            
+     *
      * @return self
      */
     protected function setExposeHeaders(array $exposeHeaders): self
@@ -303,7 +303,7 @@ class CorsService implements CorsServiceContract
 
     /**
      * @param int $maxAge
-     *                   
+     *
      * @return self
      */
     protected function setMaxAge(int $maxAge): self
