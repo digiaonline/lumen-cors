@@ -1,5 +1,6 @@
 parameters:
-	level: 5
+	level: 7
+	checkMissingIterableValueType: false
 	ignoreErrors:
 		# Ignore Laravel/Lumen incompatibilites
 		- '#Function config_path not found#'

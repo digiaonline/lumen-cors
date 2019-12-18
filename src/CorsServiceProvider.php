@@ -10,7 +10,7 @@ class CorsServiceProvider extends ServiceProvider
     /**
      * @inheritdoc
      */
-    public function register()
+    public function register(): void
     {
         // In Lumen application configuration files needs to be loaded implicitly
         if ($this->app instanceof \Laravel\Lumen\Application) {
@@ -26,7 +26,7 @@ class CorsServiceProvider extends ServiceProvider
     /**
      * Registers container bindings.
      */
-    protected function registerBindings()
+    protected function registerBindings(): void
     {
         // TODO: Change to bind the implementation to the interface instead.
         $this->app->bind(CorsService::class, function () {
@@ -41,7 +41,7 @@ class CorsServiceProvider extends ServiceProvider
      *
      * @return string
      */
-    protected function configPath()
+    protected function configPath(): string
     {
         return __DIR__ . '/../config/cors.php';
     }
