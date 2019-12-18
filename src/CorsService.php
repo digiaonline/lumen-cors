@@ -262,36 +262,49 @@ class CorsService implements CorsServiceContract
         return in_array('*', $this->allowHeaders);
     }
 
-
     /**
      * @param array $allowMethods
+     *
+     * @return self
      */
     protected function setAllowMethods(array $allowMethods)
     {
         $this->allowMethods = array_map('strtoupper', $allowMethods);
+        
+        return $this;
     }
 
 
     /**
      * @param array $allowHeaders
+     *                           
+     * @return self
      */
     protected function setAllowHeaders(array $allowHeaders)
     {
         $this->allowHeaders = array_map('strtolower', $allowHeaders);
+        
+        return $this;
     }
 
 
     /**
      * @param array $exposeHeaders
+     *                            
+     * @return self
      */
     protected function setExposeHeaders(array $exposeHeaders)
     {
         $this->exposeHeaders = array_map('strtolower', $exposeHeaders);
+        
+        return $this;
     }
 
 
     /**
      * @param int $maxAge
+     *                   
+     * @return self
      */
     protected function setMaxAge(int $maxAge)
     {
@@ -300,5 +313,7 @@ class CorsService implements CorsServiceContract
         }
 
         $this->maxAge = $maxAge;
+        
+        return $this;
     }
 }
