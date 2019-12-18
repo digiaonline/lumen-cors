@@ -262,43 +262,58 @@ class CorsService implements CorsServiceContract
         return in_array('*', $this->allowHeaders);
     }
 
-
     /**
      * @param array $allowMethods
+     *
+     * @return self
      */
-    protected function setAllowMethods(array $allowMethods)
+    protected function setAllowMethods(array $allowMethods): self
     {
         $this->allowMethods = array_map('strtoupper', $allowMethods);
+        
+        return $this;
     }
 
 
     /**
      * @param array $allowHeaders
+     *
+     * @return self
      */
-    protected function setAllowHeaders(array $allowHeaders)
+    protected function setAllowHeaders(array $allowHeaders): self
     {
         $this->allowHeaders = array_map('strtolower', $allowHeaders);
+        
+        return $this;
     }
 
 
     /**
      * @param array $exposeHeaders
+     *
+     * @return self
      */
-    protected function setExposeHeaders(array $exposeHeaders)
+    protected function setExposeHeaders(array $exposeHeaders): self
     {
         $this->exposeHeaders = array_map('strtolower', $exposeHeaders);
+        
+        return $this;
     }
 
 
     /**
      * @param int $maxAge
+     *
+     * @return self
      */
-    protected function setMaxAge(int $maxAge)
+    protected function setMaxAge(int $maxAge): self
     {
         if ($maxAge < 0) {
             throw new \InvalidArgumentException('Max age must be a positive number or zero.');
         }
 
         $this->maxAge = $maxAge;
+        
+        return $this;
     }
 }
