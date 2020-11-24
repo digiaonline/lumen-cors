@@ -1,9 +1,9 @@
 # Release checklist
 
 * [ ] Get master to the appropriate code release state.
-      [Travis CI](https://travis-ci.org/digiaonline/lumen-cors)
+      [GitHub Actions](https://github.com/digiaonline/lumen-cors/actions)
       should be running cleanly for all merges to master.
-      [![Build Status](https://travis-ci.org/digiaonline/lumen-cors.svg?branch=master)](https://travis-ci.org/digiaonline/lumen-cors)
+      [![GitHub Actions status](https://github.com/digiaonline/lumen-cors/workflows/Test/badge.svg)](https://github.com/digiaonline/lumen-cors/actions)
 
 * [ ] Update the CHANGELOG:
 

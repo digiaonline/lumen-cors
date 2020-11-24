@@ -1,0 +1,42 @@
+name: Test
+
+on: [push, pull_request]
+
+env:
+  FORCE_COLOR: 1
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ["7.1", "7.2", "7.3", "7.4"]
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+
+      - name: Install dependencies
+        run: |
+          composer self-update
+          composer install
+
+      - name: Tests
+        shell: bash
+        run: |
+          composer ci
+
+      - name: Upload coverage results to Coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p build/logs
+          cp tests/_output/coverage.xml build/logs/clover.xml
+          composer global require php-coveralls/php-coveralls
+          php-coveralls --coverage_clover=build/logs/clover.xml -v
