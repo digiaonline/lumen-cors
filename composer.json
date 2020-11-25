@@ -32,7 +32,7 @@
             "codecept run",
             "phpstan analyse src/"
         ],
-        "travis": [
+        "ci": [
             "codecept run --coverage --report --coverage-xml",
             "phpstan analyse src/"
         ]
