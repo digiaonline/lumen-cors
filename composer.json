@@ -21,7 +21,8 @@
         "codeception/verify": "^1.2",
         "laravel/lumen-framework": "^5.4 || ^6.0 || ^7.0",
         "php-coveralls/php-coveralls": "^2.2",
-        "phpstan/phpstan": "^0.12.2"
+        "phpstan/phpstan": "^0.12.2",
+        "phpstan/phpstan-symfony": "^0.12.11"
     },
     "autoload": {
         "psr-4": {
