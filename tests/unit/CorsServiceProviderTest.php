@@ -17,7 +17,7 @@ class CorsServiceProviderTest extends \Codeception\Test\Unit
     /**
      * @inheritdoc
      */
-    protected function setup()
+    protected function setup(): void
     {
         $this->app = new MockApplication();
         $this->app->register(CorsServiceProvider::class);

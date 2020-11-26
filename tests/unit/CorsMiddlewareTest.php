@@ -15,7 +15,7 @@ class CorsMiddlewareTest extends \Codeception\Test\Unit
     /**
      * @inheritdoc
      */
-    protected function setup()
+    protected function setup(): void
     {
         $app = new MockApplication();
         $app->register(CorsServiceProvider::class);
