@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [3.4.0] - 2021-02-08
+### Changed
+- PHP 8.0 is now supported
+- Lumen 8.x is now supported
+
 ## [3.3.0] - 2020-03-30
 ### Changed
 - Lumen 7.x is now supported
