@@ -1,9 +1,9 @@
 # Lumen CORS
 
 [![GitHub Actions status](https://github.com/digiaonline/lumen-cors/workflows/Test/badge.svg)](https://github.com/digiaonline/lumen-cors/actions)
-[![Coverage Status](https://coveralls.io/repos/github/digiaonline/lumen-cors/badge.svg?branch=master)](https://coveralls.io/github/digiaonline/lumen-cors?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/digiaonline/lumen-cors/badge.svg?branch=main)](https://coveralls.io/github/digiaonline/lumen-cors?branch=main)
 [![Code Climate](https://codeclimate.com/github/nordsoftware/lumen-cors/badges/gpa.svg)](https://codeclimate.com/github/nordsoftware/lumen-cors)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/digiaonline/lumen-cors/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/digiaonline/lumen-cors/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/digiaonline/lumen-cors/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/digiaonline/lumen-cors/?branch=main)
 [![StyleCI](https://styleci.io/repos/35571263/shield?style=flat)](https://styleci.io/repos/35571263)
 [![Latest Stable Version](https://poser.pugx.org/nordsoftware/lumen-cors/version)](https://packagist.org/packages/nordsoftware/lumen-cors)
 [![Total Downloads](https://poser.pugx.org/nordsoftware/lumen-cors/downloads)](https://packagist.org/packages/nordsoftware/lumen-cors)

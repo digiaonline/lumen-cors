@@ -1,14 +1,14 @@
 # Release checklist
 
-* [ ] Get master to the appropriate code release state.
+* [ ] Get main to the appropriate code release state.
       [GitHub Actions](https://github.com/digiaonline/lumen-cors/actions)
-      should be running cleanly for all merges to master.
+      should be running cleanly for all merges to main.
       [![GitHub Actions status](https://github.com/digiaonline/lumen-cors/workflows/Test/badge.svg)](https://github.com/digiaonline/lumen-cors/actions)
 
 * [ ] Update the CHANGELOG:
 
 ```bash
-git checkout master
+git checkout main
 edit CHANGELOG.md
 git add CHANGELOG.md
 git commit -m "Update the CHANGELOG"
